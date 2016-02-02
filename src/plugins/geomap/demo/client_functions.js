@@ -48,7 +48,10 @@ $document.on( "wb-ready.wb-geomap", "#sample_map", function( event, map ) {
 $document.on( "wb-ready.wb-geomap", "#location_map", function( event, map ) {
 
 	// Zoom to location on location_map
-	map.zoomToExtent( map.getLayer( "#addNRCan" ).getDataExtent() );
+	//map.zoomToExtent( map.getLayer( "#addNRCan" ).getDataExtent() );
+	
+	map.getView().setCenter( ol.proj.transform( [ -75.70535, 45.3995 ], "EPSG:4326", "EPSG:3978" ) );
+	map.getView().setZoom( 5 );
 } );
 
 } )( jQuery, wb );
