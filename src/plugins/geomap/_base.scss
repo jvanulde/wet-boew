@@ -22,6 +22,7 @@
 /**
  * Openlayer pan zoom bar button
  */
+/*
 .olButton {
 	height: 33px;
 	width: 33px;
@@ -46,16 +47,6 @@
 	top: 43px;
 }
 
-/*.olControlzoomworld {
-	left: 15px;
-	top: 83px;
-}*/
-
-.ol-geolocate {
-	left: 0.5em;
-	top: 127px;
-}
-/*
 .olPanelGeolocate {
 	left: 19px;
 	top: 127px;
@@ -83,13 +74,14 @@
  * When a potential text is bigger than the image it move the image
  * with some headers (closes #3154)
  */
+/*
 .olControlPanZoomBar {
 
 	div {
 		font-size: 0.01em;
 	}
-}
-
+}*/
+/*
 .olMap {
 	cursor: default;
 	z-index: 0;
@@ -105,7 +97,7 @@
 	img {
 		max-width: none !important;
 	}
-}
+}*/
 /*
 .ol-mouse-position {
 	bottom: 5px;
@@ -114,7 +106,7 @@
 	font-size: 0.75em;
 	left: 150px;
 	position: absolute;
-}*/
+}
 
 .olControlScale {
 	bottom: 3em;
@@ -155,6 +147,7 @@
 	}
 }
 */
+/*
 .olHandlerBoxZoomBox {
 	@extend %geomap-position-absolute-bg-color-fff-opacity-05-font-size-1;
 	border: 2px solid #f00;
@@ -163,8 +156,70 @@
 .olHandlerBoxSelectFeature {
 	@extend %geomap-position-absolute-bg-color-fff-opacity-05-font-size-1;
 	border: 2px solid #00f;
+}*/
+.ol-overlay-container {
+	z-index: 1000;
 }
 
+.ol-popup {
+	display: block;
+	position: absolute;
+	background-color: white;
+	-moz-box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+	-webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+	filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+	padding: 15px;
+	border-radius: 3px;
+	border: 1px solid #cccccc;
+	bottom: 12px;
+	left: -50px;
+	font-size: .75em;
+	min-width: 250px;
+}
+
+.ol-popup:after, .ol-popup:before {
+	top: 100%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+.ol-popup:after {
+	border-top-color: white;
+	border-width: 10px;
+	left: 48px;
+	margin-left: -10px;
+}
+
+.ol-popup:before {
+	border-top-color: #cccccc;
+	border-width: 11px;
+	left: 48px;
+	margin-left: -11px;
+}
+
+.ol-popup-closer {
+	text-decoration: none;
+	position: absolute;
+	top: 3px;
+	right: 6px;
+	font-family: "Glyphicons Halflings";
+	color: #333;
+	text-decoration: none;
+}
+
+.ol-popup-closer:link, .ol-popup-closer:visited, .ol-popup-closer:hover, .ol-popup-closer:active {
+	color: #333;
+	text-decoration: none;
+}
+
+.ol-popup-closer:after {
+	content: "\e014";
+}
+
+/*
 .olPopupCloseBox {
 	cursor: pointer;
 }
@@ -215,19 +270,20 @@
 	ul {
 		@extend %olPopupMargin;
 	}
-}
-
+}*/
+/*
 .olControlNoSelect {
 	user-select: none;
 }
 
 .olImageLoadError {
 	display: none !important;
-}
+}*/
 
 /**
  * Cursor styles
  */
+/*
 .olCursorWait {
 	cursor: wait;
 }
@@ -251,10 +307,11 @@
 		}
 	}
 }
-
+*/
 /**
  * Animations
  */
+/*
 .olLayerGrid {
 	.olTileImage {
 		transition: opacity 0.2s linear;
@@ -363,20 +420,42 @@ button {
 }
 
 /* OL3 */
+
+.ol-geolocate {
+	left: 0.5em;
+	top: 127px;
+
+	button {
+		background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAARCAYAAAAougcOAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAVlpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iPgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KTMInWQAAAUlJREFUOBGtlMtKxEAQRcc3foOrcaMrl4KCyPgP/qOooOLWj3EjuBQfKL7PmXRhKJMYnFy4/bipvtXV3WQ0mg1zLF9MFmqDYB6XbL6BtlLcZ0rk4qViFN0+gyt4C8dFzBsocnfXZD5hyQX8KjyrWRjfGwbnXWl+DsPc/gVuQ5ErrdSGtsncY8nmj2gmOSoerpN/IgftsuIEfsDY/Rtj6fwT7kCRq67UjnbCt/qZR4JI9sr3ehVa5Q2q/cJCUdbor6EmT/AOPsBnqPZeehNaqWitImd2romXtw7j+zLje7gFPf9VKE7h4XRUxbq2F8K4KXiMaDLNPK49KHq/qCr8p/XoglYirMSjM8kxFG6qa2PToD5N3NUmwfFs//2i2hLWk1jFZS1wkCr0i5fjT/AGHiiC0KvZjG3s1rvx1fkXFqFXswHabJjnrSm+ARfUPic61nrdAAAAAElFTkSuQmCC") no-repeat;
+		background-position: center;
+	}
+}
+
 .ol-mouse-position {
 	background: #fff;
 	background: rgba(255,255,255,.7);
 	border-radius: 4px;
-	bottom: 8px;
+	bottom: 36px;
 	font-size: .75em;
-	left: 200px;
-	padding: 4px;
+	left: 8px;
+	padding: 2px 6px 2px 6px;
 	min-width: 100px;
-	position: absolute
+	position: absolute;
+	font-family: "Glyphicons Halflings";
 }
+
+.ol-mouse-position:before {
+	content: "\e062";
+}
+
+.ol-mouse-position-inner {
+	padding: 10px;
+}
+
 .ol-mouse-position:empty {
 	display: none;
 }
+
 .ol-scale-line {
 	background: #fff;
 	background: rgba(255,255,255,.7);
@@ -614,4 +693,5 @@ button {
 .ol-overviewmap-box {
 	border: 2px dotted rgba(0,60,136,.7)
 }
+
 

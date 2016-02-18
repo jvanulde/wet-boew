@@ -188,10 +188,38 @@ var wet_boew_geomap = {
 //			tab: true
 //		},
 		{
+			title: "TopoJSON (World 110m)",
+			caption: "This is a sample dataset loaded from a remote TopoJSON resource.",
+			type: "topojson",
+			url: "demo/topojson.json",
+			accessible: false,
+			style: {
+				strokeColor: "#3399ff",
+				strokeWidth: 2.0
+			}
+		},
+		{
+			title: "EsriJSON (NF TCT)",
+			caption: "This is a sample dataset loaded from a remote Esri JSON resource, in this case the NF TCT.",
+			type: "esrijson",
+			url: "http://tctrail.ca/arcgis/rest/services/MapServices/TCTrails/MapServer/1/query?where=ID_Province='01'&f=pjson",
+			attributes: {
+				Name: "Name"
+			},
+			tab: true,
+			visible: false,
+			zoom: true,
+			style: {
+				strokeColor: "#FF0000",
+				strokeWidth: 2.0,
+				strokeDash: [ 6, 4 ]
+			}
+		},
+		{
 			title: "JSON (GeoGratis)",
 			caption: "This is a sample dataset loaded from a remote JSON resource, in this case the GeoGratis API.",
 			type: "json",
-			url: "http://geogratis.gc.ca/api/en/nrcan-rncan/ess-sst?alt=json&q=alluvial",
+			url: "http://geogratis.gc.ca/api/en/nrcan-rncan/ess-sst",
 			params: {
 				alt: "json",
 				q: "alluvial"
@@ -218,8 +246,9 @@ var wet_boew_geomap = {
 			datatable: true,
 			zoom: true,
 			attributes: {
-				origin_time: "Time",
-				magnitude: "Magnitude"
+				location: { path: "en", alias: "Location" },
+				magnitude: "Magnitude",
+				origin_time: "Time"
 			},
 			style: {
 				type: "rule",
@@ -234,7 +263,7 @@ var wet_boew_geomap = {
 						fillColor: "#000066",
 						pointRadius: 2.5,
 						fillOpacity: 0.8,
-						strokeWidth: 1.0,
+						strokeWidth: 1.0
 					}
 				},
 				{
@@ -247,7 +276,7 @@ var wet_boew_geomap = {
 						fillColor: "#6600cc",
 						pointRadius: 4.5,
 						fillOpacity: 0.8,
-						strokeWidth: 1.0,
+						strokeWidth: 1.0
 					}
 				},
 				{
@@ -303,7 +332,7 @@ var wet_boew_geomap = {
 						fillOpacity: 0.8,
 						strokeWidth: 1.0
 					}
-				},
+				}
 			] }
 		},
 		{
