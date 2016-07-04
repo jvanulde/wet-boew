@@ -29,7 +29,7 @@ var componentName = "wb-fnote",
 		// returns DOM object = proceed with init
 		// returns undefined = do not proceed with init (e.g., already initialized)
 		var elm = wb.init( event, componentName, selector ),
-			$elm, footnoteDd, footnoteDt, i, len, dd, dt, dtId, $returnLinks;
+			$elm, footnoteDd, footnoteDt, i, len, dd, dt, dtId;
 
 		if ( elm ) {
 			$elm = $( elm );
@@ -48,7 +48,7 @@ var componentName = "wb-fnote",
 			}
 
 			// Remove "first/premier/etc"-style text from certain footnote return links (via the child spans that hold those bits of text)
-			$returnLinks = $elm.find( "dd p.fn-rtn a span span" ).remove();
+			$elm.find( "dd p.fn-rtn a span span" ).remove();
 
 			// Identify that initialization has completed
 			wb.ready( $elm, componentName );
@@ -81,15 +81,21 @@ $document.on( "click vclick", "main :not(" + selector + ") sup a.fn-lnk", functi
 // Listen for footnote return links that get clicked
 $document.on( "click vclick", selector + " dd p.fn-rtn a", function( event ) {
 	var which = event.which,
+		ref,
 		refId;
 
 	// Ignore middle/right mouse button
 	if ( !which || which === 1 ) {
-		refId = "#" + wb.jqEscape( event.target.getAttribute( "href" ).substring( 1 ) );
+		ref = event.target.getAttribute( "href" );
 
-		// Assign focus to the link
-		$document.find( refId + " a" ).trigger( setFocusEvent );
-		return false;
+		// Focus on associated referrer link (if the return link points to an ID)
+		if ( ref.charAt( 0 ) === "#" ) {
+			refId = "#" + wb.jqEscape( ref.substring( 1 ) );
+
+			// Assign focus to the link
+			$document.find( refId + " a" ).trigger( setFocusEvent );
+			return false;
+		}
 	}
 } );
 
