@@ -8,7 +8,7 @@
 	"parentdir": "geomap",
 	"altLangPrefix": "geomap",
 	"js": ["demo/client_functions"],
-	"dateModified": "2014-07-22"
+	"dateModified": "2016-04-22"
 }
 ---
 <span class="wb-prettify all-pre hide"></span>
@@ -23,7 +23,7 @@
 
 	<!-- GeomapStart -->
 	<div id="sample_map"
-		class="wb-geomap position scaleline tab geocoder geolocation aoi"
+		class="wb-geomap position scaleline geocoder geolocation aoi"
 		data-wb-geomap='{
 			"layersFile": "demo/config-en{{environment.suffix}}.js",
 			"tables": [{
@@ -37,10 +37,6 @@
 				"popups": true,
 				"visible": true,
 				"popupsInfo": {
-					"id": "citiesPopup",
-					"height": 200,
-					"width": 300,
-					"close": true,
 					"content": "<div style=\"white-space:nowrap;\"><p><strong>Census subdivision: </strong>_Census subdivision<div><a href=\"#\" class=\"button\" role=\"button\" title=\"Zoom to city\" aria-label=\"Zoom to city\" onclick=\"wb.doc.zoomFeature()\">Zoom to city</a></div></div>"
 				},
 				"style": {
@@ -51,11 +47,11 @@
 						"value": [3],
 						"filter": "GREATER_THAN",
 						"init": {
-							"fillColor": "#999999",
+							"fillColor": "#e74c3c",
 							"pointRadius": 2.6,
 							"fillOpacity": 1.0,
 							"strokeWidth": 8,
-							"strokeColor": [ 153, 153, 153, 0.5 ]
+							"strokeColor": [ 231, 76, 60, 0.5 ]
 						}
 					},
 					{
@@ -63,11 +59,11 @@
 						"value": [2, 3],
 						"filter": "BETWEEN",
 						"init": {
-							"fillColor": "#999999",
+							"fillColor": "#e74c3c",
 							"pointRadius": 4,
 							"fillOpacity": 1.0,
 							"strokeWidth": 12,
-							"strokeColor": [ 153, 153, 153, 0.5 ]
+							"strokeColor": [ 231, 76, 60, 0.5 ]
 						}
 					},
 					{
@@ -75,11 +71,11 @@
 						"value": [1],
 						"filter": "EQUAL_TO",
 						"init": {
-							"fillColor": "#999999",
+							"fillColor": "#e74c3c",
 							"pointRadius": 5.3,
 							"fillOpacity": 1.0,
 							"strokeWidth": 16,
-							"strokeColor": [ 153, 153, 153, 0.5 ]
+							"strokeColor": [ 231, 76, 60, 0.5 ]
 						}
 					}
 				]}
@@ -105,13 +101,6 @@
 				</div>
 			</section>
 			<!-- Insert Legend End -->
-		</div>
-
-		<div class="row">
-			<section class="col-md-12">
-				<h3>Example - Remote &amp; File-based Layer Data</h3>
-				<p>Layers are created from file-based formats, feeds, and web API's.</p>
-			</section>
 		</div>
 
 		<!-- Insert Layer Data Start (mandatory) -->
@@ -216,6 +205,12 @@
 							</table>
 						</div>
 					</section>
+					<div class="row">
+						<section class="col-md-12">
+							<h3>Example - Remote &amp; File-based Layer Data</h3>
+							<p>Layers are created from file-based formats, feeds, and web API's.</p>
+						</section>
+					</div>
 				</div>
 			</section>
 		</div>
@@ -229,7 +224,7 @@
 			<summary>View code</summary>
 			<pre><code>&lt;!-- GeomapStart --&gt;
 &lt;div id=&quot;sample_map&quot;
-	class=&quot;wb-geomap position scaleline tab geocoder geolocation aoi&quot;
+	class=&quot;wb-geomap position scaleline geocoder geolocation aoi&quot;
 	data-wb-geomap='{
 		&quot;layersFile&quot;: &quot;demo/config-en{{environment.suffix}}.js&quot;,
 		&quot;tables&quot;: [{
@@ -675,14 +670,13 @@
 
 <section>
 	<h2>OSM basemap example</h2>
-	<p>Geomap can be configured to use an OSM Tile service (e.g. MapQuest) as basemap. Configuration can be made in the config file in basemap property.</p>
+	<p>Geomap can be configured to use an OpenStreetMap (OSM) basemap. Configuration can be made in the config file in basemap property.</p>
 
 	<!-- GeomapStart -->
 	<div id="osm_map"
 		class="wb-geomap"
 		data-wb-geomap='{
-			"layersFile": "demo/config-osm-en{{environment.suffix}}.js",
-			"attribution": { "text":"Tiles Courtesy of &lt;a href=\"http://www.mapquest.com/\" target=\"_blank\"&gt;MapQuest&lt;/a&gt;", "href":"" }
+			"layersFile": "demo/config-osm-en{{environment.suffix}}.js"
 		}'>
 		<div class="row">
 			<div class="col-md-4">
@@ -697,7 +691,7 @@
 	</div>
 	<!-- GeomapEnd -->
 
-		<section>
+	<section>
 		<h3>Code</h3>
 		<details class="mrgn-tp-lg">
 			<summary>View code</summary>
@@ -725,7 +719,71 @@
 			<summary>View config file</summary>
 			<pre><code>
 			var wet_boew_geomap = {
-				title:"MapQuest OSM Map",
+				title:"OSM Map",
+				type:"osm",
+				mapOptions: {
+					center: [ -123,49 ],
+					zoomLevel: 5
+				}
+			};
+		</code></pre>
+		</details>
+	</section>
+</section>
+
+<section>
+	<h2>Tile Source (XYZ) basemap example</h2>
+	<p>Geomap can be configured to use an Tile Source (XYZ) basemap. Configuration can be made in the config file in basemap property.</p>
+
+	<!-- GeomapStart -->
+	<div id="xyz_map"
+		class="wb-geomap"
+		data-wb-geomap='{
+			"layersFile": "demo/config-xyz-en.js",
+			"attribution": { "text":"Tiles Courtesy of &lt;a href=\"http://www.mapquest.com/\" target=\"_blank\"&gt;MapQuest&lt;/a&gt;", "href":"" }
+		}'>
+		<div class="row">
+			<div class="col-md-4">
+				<!-- Insert Map Start (mandatory) -->
+				<div class="wb-geomap-map"></div>
+				<!-- Insert Map End -->
+			</div>
+			<!-- Insert Layer Data Start (mandatory) -->
+			<div class="wb-geomap-layers col-md-4"></div>
+			<!-- Insert Layer Data End -->
+		</div>
+	</div>
+	<!-- GeomapEnd -->
+
+	<section>
+		<h3>Code</h3>
+		<details class="mrgn-tp-lg">
+			<summary>View code</summary>
+			<pre><code>&lt;!-- GeomapStart --&gt;
+&lt;div id=&quot;xyz_map&quot;
+	class=&quot;wb-geomap&quot;
+	data-wb-geomap='{
+		&quot;layersFile&quot;: &quot;demo/config-xyz-en.js&quot;
+	}'&gt;
+	&lt;div class=&quot;row&quot;&gt;
+		&lt;div class=&quot;col-md-4&quot;&gt;
+			&lt;!-- Insert Map Start (mandatory) --&gt;
+			&lt;div class=&quot;wb-geomap-map&quot;&gt;&lt;/div&gt;
+			&lt;!-- Insert Map End --&gt;
+		&lt;/div&gt;
+		&lt;!-- Insert Layer Data Start (mandatory) --&gt;
+		&lt;div class=&quot;wb-geomap-layers col-md-4&quot;&gt;&lt;/div&gt;
+		&lt;!-- Insert Layer Data End --&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- GeomapEnd --&gt;</code></pre>
+		</details>
+
+		<details class="mrgn-tp-lg">
+			<summary>View config file</summary>
+			<pre><code>
+			var wet_boew_geomap = {
+				title:"Tile (XYZ) Source Map",
 				type:"xyz",
 				url:[
 					"http://otile1.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.png",

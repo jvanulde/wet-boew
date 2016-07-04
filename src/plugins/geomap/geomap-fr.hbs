@@ -23,7 +23,7 @@
 
 	<!-- GeomapStart -->
 	<div id="sample_map"
-		class="wb-geomap position scaleline tab geocoder aoi geolocation"
+		class="wb-geomap position scaleline geocoder aoi geolocation"
 		data-wb-geomap='{
 			"layersFile": "demo/config-fr{{environment.suffix}}.js",
 			"tables": [{
@@ -36,10 +36,6 @@
 				"zoom": true,
 				"popups": true,
 				"popupsInfo": {
-					"id": "citiesPopup",
-					"height": 200,
-					"width": 300,
-					"close": true,
 					"content": "<div style=\"white-space:nowrap;\"><p><strong>Subdivision de recensement: </strong>_Subdivision de recensement<div><a href=\"#\" class=\"button\" role=\"button\" title=\"Zoom à la ville\" aria-label=\"Zoom à la ville\" onclick=\"wb.doc.zoomFeature()\">Zoom à la ville</a></div></div>"
 				},
 				"style": {
@@ -50,11 +46,11 @@
 						"value": [3],
 						"filter": "GREATER_THAN",
 						"init": {
-							"fillColor": "#999999",
+							"fillColor": "#e74c3c",
 							"pointRadius": 2.6,
 							"fillOpacity": 1.0,
 							"strokeWidth": 8,
-							"strokeColor": [ 153, 153, 153, 0.5 ]
+							"strokeColor": [ 231, 76, 60, 0.5 ]
 						}
 					},
 					{
@@ -62,11 +58,11 @@
 						"value": [2, 3],
 						"filter": "BETWEEN",
 						"init": {
-							"fillColor": "#999999",
+							"fillColor": "#e74c3c",
 							"pointRadius": 4,
 							"fillOpacity": 1.0,
 							"strokeWidth": 12,
-							"strokeColor": [ 153, 153, 153, 0.5 ]
+							"strokeColor": [ 231, 76, 60, 0.5 ]
 						}
 					},
 					{
@@ -74,11 +70,11 @@
 						"value": [1],
 						"filter": "EQUAL_TO",
 						"init": {
-							"fillColor": "#999999",
+							"fillColor": "#e74c3c",
 							"pointRadius": 5.3,
 							"fillOpacity": 1.0,
 							"strokeWidth": 16,
-							"strokeColor": [ 153, 153, 153, 0.5 ]
+							"strokeColor": [ 231, 76, 60, 0.5 ]
 						}
 					}
 				]}
@@ -107,13 +103,6 @@
 		</div>
 
 		<!-- Insert Layer Data Start (mandatory) -->
-		<div class="row">
-			<section class="col-md-12">
-				<h3>Exemple - Données extérieure &amp; provenant de fichiers</h3>
-				<p>Les données sont créées à partir de fichiers, fils ou d'API web.</p>
-			</section>
-		</div>
-
 		<div class="row">
 			<section>
 				<div class="wb-geomap-layers col-md-12">
@@ -215,6 +204,12 @@
 							</table>
 						</div>
 					</section>
+					<div class="row">
+						<section class="col-md-12">
+							<h3>Exemple - Données extérieure &amp; provenant de fichiers</h3>
+							<p>Les données sont créées à partir de fichiers, fils ou d'API web.</p>
+						</section>
+					</div>
 				</div>
 			</section>
 		</div>
@@ -228,7 +223,7 @@
 			<summary>Visualiser le code</summary>
 			<pre><code>&lt;!-- GeomapStart --&gt;
 &lt;div id=&quot;sample_map&quot;
-	class=&quot;wb-geomap position scaleline tab geocoder aoi geolocation&quot;
+	class=&quot;wb-geomap position scaleline geocoder aoi geolocation&quot;
 	data-wb-geomap='{
 		&quot;layersFile&quot;: &quot;demo/config-fr{{environment.suffix}}.js&quot;,
 		&quot;tables&quot;: [{
@@ -668,13 +663,76 @@
 
 <section>
 	<h2>Exemple de carte de base OSM</h2>
-	<p>Geomap peut être configuré pour utiliser un service de tuiles OSM (ex : MapQuest) comme carte de base. La configuration peut être effectuée dans le paramètre <code>basemap</code> du fichier config.</p>
+	<p>Geomap peut être configuré pour utiliser un service de OSM comme carte de base. La configuration peut être effectuée dans le paramètre <code>basemap</code> du fichier config.</p>
 
 	<!-- GeomapStart -->
 	<div id="osm_map"
 		class="wb-geomap"
 		data-wb-geomap='{
-			"layersFile": "demo/config-osm-en{{environment.suffix}}.js",
+			"layersFile": "demo/config-osm-fr.js"
+		}'>
+		<div class="row">
+			<div class="col-md-4">
+				<!-- Insert Map Start (mandatory) -->
+				<div class="wb-geomap-map"></div>
+				<!-- Insert Map End -->
+			</div>
+			<!-- Insert Layer Data Start (mandatory) -->
+			<div class="wb-geomap-layers col-md-4"></div>
+			<!-- Insert Layer Data End -->
+		</div>
+	</div>
+	<!-- GeomapEnd -->
+
+	<section>
+		<h3>Code</h3>
+		<details class="mrgn-tp-lg">
+			<summary>Visualiser le code</summary>
+			<pre><code>&lt;!-- GeomapStart --&gt;
+&lt;div id=&quot;osm_map&quot;
+	class=&quot;wb-geomap&quot;
+	data-wb-geomap='{
+		&quot;layersFile&quot;: &quot;demo/config-osm-fr.js&quot;
+	}'&gt;
+	&lt;div class=&quot;row&quot;&gt;
+		&lt;div class=&quot;col-md-4&quot;&gt;
+			&lt;!-- Insert Map Start (mandatory) --&gt;
+			&lt;div class=&quot;wb-geomap-map&quot;&gt;&lt;/div&gt;
+			&lt;!-- Insert Map End --&gt;
+		&lt;/div&gt;
+		&lt;!-- Insert Layer Data Start (mandatory) --&gt;
+		&lt;div class=&quot;wb-geomap-layers col-md-4&quot;&gt;&lt;/div&gt;
+		&lt;!-- Insert Layer Data End --&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- GeomapEnd --&gt;</code></pre>
+		</details>
+
+		<details class="mrgn-tp-lg">
+			<summary>Visualiser le fichier de configuration</summary>
+			<pre><code>
+			var wet_boew_geomap = {
+				title:"MapQuest OSM Map",
+				type:"osm",
+				mapOptions: {
+					center: [ -123,49 ],
+					zoomLevel: 5
+				}
+			};
+		</code></pre>
+		</details>
+	</section>
+</section>
+
+<section>
+	<h2>Exemple de carte de base XYZ</h2>
+	<p>Geomap peut être configuré pour utiliser un service de tuiles XYZ (ex : MapQuest) comme carte de base. La configuration peut être effectuée dans le paramètre <code>basemap</code> du fichier config.</p>
+
+	<!-- GeomapStart -->
+	<div id="xyz_map"
+		class="wb-geomap"
+		data-wb-geomap='{
+			"layersFile": "demo/config-xyz-fr.js",
 			"attribution": { "text":"Les tuiles sont une courtoisies de &lt;a href=\"http://www.mapquest.com/\" target=\"_blank\"&gt;MapQuest&lt;/a&gt;", "href":"" }
 		}'>
 		<div class="row">
@@ -690,15 +748,15 @@
 	</div>
 	<!-- GeomapEnd -->
 
-		<section>
+	<section>
 		<h3>Code</h3>
 		<details class="mrgn-tp-lg">
 			<summary>Visualiser le code</summary>
 			<pre><code>&lt;!-- GeomapStart --&gt;
-&lt;div id=&quot;osm_map&quot;
+&lt;div id=&quot;xyz_map&quot;
 	class=&quot;wb-geomap&quot;
 	data-wb-geomap='{
-		&quot;layersFile&quot;: &quot;demo/config-osm-fr.js&quot;
+		&quot;layersFile&quot;: &quot;demo/config-xyz-fr.js&quot;
 	}'&gt;
 	&lt;div class=&quot;row&quot;&gt;
 		&lt;div class=&quot;col-md-4&quot;&gt;

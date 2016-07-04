@@ -20,25 +20,16 @@ var wet_boew_geomap = {
 
 	// OPTIONAL: note that Geomap will provide a default basemap if not specified here.
 	/*basemap: {
-		title: "WMS-Toporama",
-		type: "wms",
-		url: "http://wms.ess-ws.nrcan.gc.ca/wms/toporama_en",
-		version: "1.1.1",
-		format: "image/jpeg",
-		layers: "WMS-Toporama",
+		title:"OSM Map",
+		type:"osm",
 		mapOptions: {
-			maxExtent: "-2650000.0, -900000.0, 3600000.0, 4630000.0",
-			restrictedExtent: "-2750000.0, -1000000.0, 3700000.0, 4730000.0",
-			maxResolution: "auto",
-			projection: "EPSG:3978",
-			units: "m",
-			displayProjection: "EPSG:4269",
-			aspectRatio: 0.8
+			center: [ -123, 49 ],
+			zoomLevel: 5
 		}
 	},*/
 	overlays: [
 		{
-			title: "WMS Demo",
+			title: "WMS",
 			caption: "This is a sample WMS service loaded by Geomap.",
 			type: "wms",
 			url: "http://geo.weather.gc.ca/geomet/?Lang=E",
@@ -70,14 +61,14 @@ var wet_boew_geomap = {
 			}
 		},
 		{
-			title: "Producing Mines (2015)",
+			title: "KML",
 			caption: "This map contains data extracted from the <a href=\"http://geogratis.gc.ca/api/en/nrcan-rncan/ess-sst/457ede2f-fd65-5936-ab60-3fe71da0e98b\">Principal mineral areas of Canada</a> publication. Published annually by Natural Resources Canada, this data contains statistics on Canada's mineral production and provides the geographic locations of significant metallic, nonmetallic and industrial mineral mines, and oil sands mines for the provinces and territories of Canada.",
 			type: "kml",
 			url: "demo/producing-mines.kml",
 			visible: false,
 			datatable: true,
 			popups: true,
-			tab: true,
+			tab: false,
 			attributes: {
 				Type_: "Type",
 				OwnersE: "Owner",
@@ -161,38 +152,13 @@ var wet_boew_geomap = {
 				}
 			}
 		},
-//		{
-//			title: "ATOM Demo",
-//			caption: "This is a sample ATOM feed loaded locally by Geomap.",
-//			type: "atom",
-//			url: "demo/sample.atom",
-//			tab: true,
-//			attributes: {
-//				title: "Title",
-//				summary: "About this dataset"
-//			},
-//			visible: false
-//		},
-//		{
-//			title: "GeoRSS Demo",
-//			caption: "This is a sample GeoRSS feed loaded locally by Geomap.",
-//			type: "georss",
-//			url: "demo/sample.rss",
-//			attributes: {
-//				title: "Title",
-//				description: "Description",
-//				link: "More Info"
-//			},
-//			visible: false,
-//			datatable: false,
-//			tab: true
-//		},
 		{
 			title: "TopoJSON (World 110m)",
 			caption: "This is a sample dataset loaded from a remote TopoJSON resource.",
 			type: "topojson",
 			url: "demo/topojson.json",
 			accessible: false,
+			visible: false,
 			style: {
 				strokeColor: "#3399ff",
 				strokeWidth: 2.0
@@ -206,7 +172,7 @@ var wet_boew_geomap = {
 			attributes: {
 				Name: "Name"
 			},
-			tab: true,
+			tab: false,
 			visible: false,
 			zoom: true,
 			style: {
@@ -228,7 +194,7 @@ var wet_boew_geomap = {
 			datatable: true,
 			root: "products",
 			popups: true,
-			tab: true,
+			tab: false,
 			attributes: {
 				title: "Title",
 				summary: "Abstract",
@@ -240,9 +206,9 @@ var wet_boew_geomap = {
 			caption: "This is a sample dataset loaded from a remote JSON resource, in this case the Earthquakes API.",
 			type: "json",
 			url: "http://www.earthquakescanada.nrcan.gc.ca/api/earthquakes/latest/7d.json",
-			visible: true,
+			visible: false,
 			popups: true,
-			tab: true,
+			tab: false,
 			datatable: true,
 			zoom: true,
 			attributes: {
@@ -353,7 +319,7 @@ var wet_boew_geomap = {
 			visible: false,
 			zoom: true,
 			datatable: true,
-			tab: true,
+			tab: false,
 			style: {
 				type: "symbol",
 				init: {

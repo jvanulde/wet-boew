@@ -37,7 +37,7 @@ var wet_boew_geomap = {
 	},*/
 	overlays: [
 		{
-			title: "WMS Demo",
+			title: "WMS",
 			caption: " Ceci est un exemple de service WMS chargé à l’aide de Géomap.",
 			type: "wms",
 			url: "http://geo.weather.gc.ca/geomet/?Lang=F",
@@ -69,26 +69,11 @@ var wet_boew_geomap = {
 			}
 		},
 		{
-			title: "KML Demo",
-			caption: "Ceci est un exemple de fichier KML chargé localement par Géocarte.",
-			type: "kml",
-			url: "demo/sample_fr.kml",
-			visible: false,
-			datatable: true,
-			tab: true,
-			popups: true,
-			attributes: {
-				name: "Titre du produit",
-				description: "Description"
-			}
-		},
-		
-		{
-			title: "Mines productrices (2015)",
+			title: "KML",
 			caption: "*NEEDS TRANSLATION*This map contains data extracted from the <a href=\"http://geogratis.gc.ca/api/fr/nrcan-rncan/ess-sst/457ede2f-fd65-5936-ab60-3fe71da0e98b\">Principal mineral areas of Canada</a> publication. Published annually by Natural Resources Canada, this data contains statistics on Canada's mineral production and provides the geographic locations of significant metallic, nonmetallic and industrial mineral mines, and oil sands mines for the provinces and territories of Canada.",
 			type: "kml",
 			url: "demo/producing-mines.kml",
-			visible: true,
+			visible: false,
 			datatable: true,
 			popups: true,
 			attributes: {
@@ -174,32 +159,60 @@ var wet_boew_geomap = {
 				}
 			}
 		},
+//		{
+//			title: "ATOM Demo",
+//			caption: "Ceci est un exemple de fil ATOM chargé localement par Géocarte.",
+//			type: "atom",
+//			url: "demo/sample_fr.atom",
+//			attributes: {
+//				title: "Titre",
+//				summary: "À propos de ce jeux de données"
+//			},
+//			visible: false,
+//			datatable: false,
+//			tab: true
+//		},
+//		{
+//			title: "GeoRSS Demo",
+//			caption: "Ceci est un exemple de fil GeoRSS chargé localement par Géocarte.",
+//			type: "georss",
+//			url: "demo/sample_fr.rss",
+//			attributes: {
+//				title: "Titre",
+//				description: "Description",
+//				link: "Pour plus d'information"
+//			},
+//			visible: false,
+//			datatable: false,
+//			tab: true
+//		},
 		{
-			title: "ATOM Demo",
-			caption: "Ceci est un exemple de fil ATOM chargé localement par Géocarte.",
-			type: "atom",
-			url: "demo/sample_fr.atom",
-			attributes: {
-				title: "Titre",
-				summary: "À propos de ce jeux de données"
-			},
-			visible: false,
-			datatable: false,
-			tab: true
+			title: "TopoJSON (World 110m)",
+			caption: "This is a sample dataset loaded from a remote TopoJSON resource.",
+			type: "topojson",
+			url: "demo/topojson.json",
+			accessible: false,
+			style: {
+				strokeColor: "#3399ff",
+				strokeWidth: 2.0
+			}
 		},
 		{
-			title: "GeoRSS Demo",
-			caption: "Ceci est un exemple de fil GeoRSS chargé localement par Géocarte.",
-			type: "georss",
-			url: "demo/sample_fr.rss",
+			title: "EsriJSON (NF TCT)",
+			caption: "This is a sample dataset loaded from a remote Esri JSON resource, in this case the NF TCT.",
+			type: "esrijson",
+			url: "http://tctrail.ca/arcgis/rest/services/MapServices/TCTrails/MapServer/1/query?where=ID_Province='01'&f=pjson",
 			attributes: {
-				title: "Titre",
-				description: "Description",
-				link: "Pour plus d'information"
+				Name: "Name"
 			},
+			tab: false,
 			visible: false,
-			datatable: false,
-			tab: true
+			zoom: true,
+			style: {
+				strokeColor: "#FF0000",
+				strokeWidth: 2.0,
+				strokeDash: [ 6, 4 ]
+			}
 		},
 		{
 			title: "JSON (GeoGratis)",
@@ -257,74 +270,6 @@ var wet_boew_geomap = {
 					graphicOpacity: 0.5
 				}
 			}
-
-			// unique value style
-			/*style: {
-				type: "unique",
-				field: "Emplacement",
-				init: {
-					"Albert & Booth": {
-						pointRadius: "25",
-						strokeWidth: "20",
-						fillColor: "#800080"
-					},
-					"Baseline & Greenbank": {
-						pointRadius:"25",
-						strokeWidth: "10",
-						fillColor: "#800080"
-					}
-				},
-				select: {
-					pointRadius: 30,
-					externalGraphic: "demo/icons/trafficcamera.png",
-					label: "${Emplacement}",
-					fillOpacity: 0.90
-				}
-			}
-
-			// rule style
-			style: {
-				type: "rule",
-				rule: [{
-					field: "Longitude",
-					value: [45.36],
-					filter: "LESS_THAN",
-					init: {
-						pointRadius: "15",
-						strokeColor: "#800000",
-						fillColor: "#FFFFFF",
-						fillOpacity: 0.90
-					}
-				},
-				{
-					field: "Longitude",
-					value: [45.37, 45.42],
-					filter: "BETWEEN",
-					init: {
-						pointRadius: "25",
-						strokeColor: "#000000",
-						fillColor: "#222222",
-						fillOpacity: 0.90
-					}
-				},
-				{
-					field: "Longitude",
-					value: [45.42],
-					filter: "GREATER_THAN",
-					init: {
-						pointRadius: "10",
-						strokeColor: "#800080",
-						fillColor: "#800080"
-					}
-				}],
-				select: {
-					pointRadius: "30",
-					externalGraphic: "demo/icons/OverIcon.png",
-					label: "Selectionné",
-					fillOpacity: 0.90
-				}
-			}
-			*/
 		}
 	]
 };

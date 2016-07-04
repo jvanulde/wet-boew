@@ -2,7 +2,7 @@
  * Web Experience Toolkit (WET) / Boîte à outils de l'expérience Web (BOEW)
  * wet-boew.github.io/wet-boew/License-eng.html / wet-boew.github.io/wet-boew/Licence-fra.html
 */
-@import "sprites/sprites_geomap";
+/*@import "sprites/sprites_geomap";*/
 
 %geomap-overflow-cursor-move {
 	cursor: move;
@@ -19,144 +19,6 @@
 	background-size: 33px auto;
 }
 
-/**
- * Openlayer pan zoom bar button
- */
-/*
-.olButton {
-	height: 33px;
-	width: 33px;
-
-	img {
-		float: left;
-		height: 33px;
-		left: 0;
-		margin: 0;
-		top: 0;
-		width: 33px;
-	}
-}
-
-.olControlzoomin {
-	left: 15px;
-	top: 10px;
-}
-
-.olControlzoomout {
-	left: 15px;
-	top: 43px;
-}
-
-.olPanelGeolocate {
-	left: 19px;
-	top: 127px;
-
-	button {
-		border: 0;
-		cursor: pointer;
-		height: 33px;
-		width: 33px;
-	}
-}
-
-.olButtonGeolocateItemActive {
-	@extend %_sprites_geomap_scss;
-	@extend %geomap-locate-bg-size;
-}
-
-.olButtonGeolocateItemInactive {
-	@extend %_sprites_geomap_scss;
-	@extend %geomap-locate-bg-size;
-	background-position: 0 -34px;
-}
-*/
-/*
- * When a potential text is bigger than the image it move the image
- * with some headers (closes #3154)
- */
-/*
-.olControlPanZoomBar {
-
-	div {
-		font-size: 0.01em;
-	}
-}*/
-/*
-.olMap {
-	cursor: default;
-	z-index: 0;
-}
-
-.olMapViewport {
-	text-align: left;
-}
-
-.olLayerDiv {
-	user-select: none;
-
-	img {
-		max-width: none !important;
-	}
-}*/
-/*
-.ol-mouse-position {
-	bottom: 5px;
-	display: block;
-	font-family: Arial;
-	font-size: 0.75em;
-	left: 150px;
-	position: absolute;
-}
-
-.olControlScale {
-	bottom: 3em;
-	display: block;
-	font-size: 0.75em;
-	position: absolute;
-	right: 3px;
-}
-
-.olControlScaleLine {
-	bottom: 15px;
-	display: block;
-	font-size: 0.65em;
-	left: 10px;
-	position: absolute;
-}
-
-.olControlScaleLineBottom {
-	border: solid 2px #000;
-	border-bottom: 0;
-	margin-top: -2px;
-	text-align: center;
-}
-
-.olControlScaleLineTop {
-	border: solid 2px #000;
-	border-top: 0;
-	text-align: center;
-}
-/*
-.olControlAttribution {
-	bottom: 5px;
-	font-size: 0.75em;
-	right: 5px;
-
-	p {
-		margin: 0;
-	}
-}
-*/
-/*
-.olHandlerBoxZoomBox {
-	@extend %geomap-position-absolute-bg-color-fff-opacity-05-font-size-1;
-	border: 2px solid #f00;
-}
-
-.olHandlerBoxSelectFeature {
-	@extend %geomap-position-absolute-bg-color-fff-opacity-05-font-size-1;
-	border: 2px solid #00f;
-}*/
 .ol-overlay-container {
 	z-index: 1000;
 }
@@ -201,12 +63,17 @@
 }
 
 .ol-popup-closer {
-	text-decoration: none;
 	position: absolute;
-	top: 3px;
-	right: 6px;
-	font-family: "Glyphicons Halflings";
+	width: 28px;
+	height: 28px;
+	line-height: 28px;
+	top: 0;
+	right: 0;
+	font-family: Arial, Baskerville, monospace;
+	font-size: 24px;
+	font-weight: 700;
 	color: #333;
+	text-align: center;
 	text-decoration: none;
 }
 
@@ -215,70 +82,17 @@
 	text-decoration: none;
 }
 
-.ol-popup-closer:after {
-	content: "\e014";
+.popup-content h5 {
+	margin:-5px 0px 5px 0px;
+	font-size:1.0em;
+	color:#999;
+	border-bottom: solid 1px #999;
+	padding-bottom: 3px;
 }
 
-/*
-.olPopupCloseBox {
-	cursor: pointer;
+.popup-content table th, .popup-content table td {
+	padding: 2px;
 }
-
-.olFramedCloudPopupContent {
-	overflow: auto;
-	padding: 5px;
-}
-
-%olPopupMargin {
-	margin: 5px;
-}
-
-.olPopup {
-
-	h1 {
-		@extend %olPopupMargin;
-	}
-
-	h2 {
-		@extend %olPopupMargin;
-	}
-
-	h3 {
-		@extend %olPopupMargin;
-	}
-
-	h4 {
-		@extend %olPopupMargin;
-	}
-
-	h5 {
-		@extend %olPopupMargin;
-	}
-
-	h6 {
-		@extend %olPopupMargin;
-	}
-
-	p {
-		@extend %olPopupMargin;
-	}
-
-	ol {
-		@extend %olPopupMargin;
-	}
-
-	ul {
-		@extend %olPopupMargin;
-	}
-}*/
-/*
-.olControlNoSelect {
-	user-select: none;
-}
-
-.olImageLoadError {
-	display: none !important;
-}*/
 
 /**
  * Cursor styles
@@ -373,31 +187,20 @@
 }
 
 .geomap-geoloc {
-	left: 70px;
-	position: absolute;
-	right: 70px;
-	top: .5em;
-	z-index: 10000;
+	width: 800px;
+	max-width: 68%;
+	min-width: 200px;
+	top: 10px;
+	left: 55px;
 
 	input {
 		&[type="text"] {
-			width: 80%;
+			width: 100%;
 		}
 	}
 }
 
-button {
-	&.geomap-geoloc-aoi-btn {
-		background-color: #fff;
-		border-color: #eee;
-		box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.25);
-		color: #666;
-		position: absolute;
-		right: 15px;
-		top: 15px;
-		z-index: 10000;
-	}
-}
+
 
 .geomap-aoi {
 	legend {
@@ -441,11 +244,12 @@ button {
 	padding: 2px 6px 2px 6px;
 	min-width: 100px;
 	position: absolute;
-	font-family: "Glyphicons Halflings";
 }
 
 .ol-mouse-position:before {
 	content: "\e062";
+	font-family: "Glyphicons Halflings";
+	margin-right: 3px;
 }
 
 .ol-mouse-position-inner {
@@ -639,6 +443,16 @@ button {
 .ol-attribution.ol-logo-only button, .ol-attribution.ol-uncollapsible button {
 	display: none
 }
+.ol-box {
+	box-sizing: border-box;
+	border-radius: 2px;
+	border: 2px solid #00f
+}
+.ol-dragbox {
+	box-sizing: border-box;
+	border-radius: 2px;
+	border: 2px solid red;
+}
 .ol-zoomslider {
 	top: 4.5em;
 	left: .5em;
@@ -680,8 +494,7 @@ button {
 	margin: 2px;
 	width: 150px
 }
-.ol-overviewmap:not(.ol-collapsed)
-button {
+.ol-overviewmap:not(.ol-collapsed) button {
 	bottom: 1px;
 	left: 2px;
 	position: absolute
@@ -694,4 +507,45 @@ button {
 	border: 2px dotted rgba(0,60,136,.7)
 }
 
+.geomap-help-btn {
+	top: 10px;
+	right: 10px;
+}
 
+.geomap-help-dialog {
+	background-color: rgba(255,255,255,1);
+	width: auto;
+	margin: 10px;
+	height: auto;
+	top: 0;
+	right: 0;
+}
+
+.geomap-help-dialog {
+	background-color: rgba(255,255,255,1);
+	width: auto;
+	margin: 10px;
+	height: auto;
+	top: 0;
+	right: 0;
+
+	a.btn {
+		position: absolute;
+		width: 44px;
+		height: 44px;
+		line-height: 44px;
+		top: 0;
+		right: 0;
+		font-family: Arial, Baskerville, monospace;
+		font-size: 28px;
+		font-weight: 700;
+		color: #333;
+		text-align: center;
+		text-decoration: none;
+		padding: 0;
+	}
+}
+
+.geomap-help-dialog:hover {
+	background-color: rgba(255,255,255,1);
+}

@@ -4,6 +4,7 @@
  * @license wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licence-fr.html
  * @author @pjackson28
  */
+/*global ol: false*/
 ( function( $, wb ) {
 "use strict";
 
