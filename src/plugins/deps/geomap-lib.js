@@ -909,6 +909,9 @@ var componentName = "wb-geomap",
 		return;
 	},
 
+	/**
+	 * Area of Interest (AOI) Widget
+	 */
 	AOIWidget = function( geomap ) {
 
 		var interaction = new ol.interaction.DragBox(),
@@ -924,11 +927,14 @@ var componentName = "wb-geomap",
 
 			// zoom to extent of feature
 			geomap.map.getView().fit( geomProj.getGeometry().getExtent(), geomap.map.getSize() );
-			
+
 			$( "#geomap-aoi-minx-" + geomap.id ).val( extent[0] );
 			$( "#geomap-aoi-maxx-" + geomap.id ).val( extent[2] );
 			$( "#geomap-aoi-maxy-" + geomap.id ).val( extent[3] );
 			$( "#geomap-aoi-miny-" + geomap.id ).val( extent[1] );
+
+			$( "#geomap-aoi-extent-" + geomap.id ).val( geomProj.getGeometry().getExtent() ).trigger( "change" );
+			$( "#geomap-aoi-extent-lonlat-" + geomap.id ).val( extent[0] + ", " + extent[1] + ", " + extent[2] + ", " + extent[3] ).trigger( "change" );
 
 		} );
 
@@ -993,6 +999,7 @@ var componentName = "wb-geomap",
 				"'><i class='glyphicon glyphicon-edit'></i> " +
 				i18nText.aoiBtnDraw + "</button>" );
 
+		// toggle draw mode
 		$document.on( "click", "#geomap-aoi-toggle-mode-draw-" + geomap.id, function( evt ) {
 
 			evt.preventDefault();
@@ -1010,10 +1017,10 @@ var componentName = "wb-geomap",
 
 			drawInteraction.setActive( !active );
 			selectInteraction.setActive( active );
-			
 
 		} );
 
+		// clear drawn features
 		$document.on( "click", "#geomap-aoi-btn-clear-" + geomap.id, function( evt ) {
 
 			evt.preventDefault();
@@ -1029,6 +1036,7 @@ var componentName = "wb-geomap",
 
 		} );
 
+		// draw feature from input coordinates
 		$document.on( "click", "#geomap-aoi-btn-draw-" + geomap.id, function( evt ) {
 
 			evt.preventDefault();
@@ -1127,13 +1135,15 @@ var componentName = "wb-geomap",
 
 			getLayerById( geomap.map, "locLayer" ).getSource().addFeature( feat );
 	
-			// return the projected geometry
 			return feat;
 
 		}
 
 	},
 
+	/**
+	 * Help Control - displays navigation help popup
+	 */
 	HelpControl = function( geomap ) {
 
 		var button = document.createElement( "button" ),
@@ -1184,11 +1194,10 @@ var componentName = "wb-geomap",
 			closeButton.addEventListener( "click", function ( evt ) {
 
 				evt.preventDefault();
-				$( evt.target ).closest( ".geomap-help-dialog" ).fadeOut();
 
-				//TODO: This just hides the control, it doesn't remove it.
-				// Find a way to remove the control from the map.
-			});
+				$( evt.target ).closest( ".geomap-help-dialog" ).fadeOut( function() { geomap.map.removeControl( myControl ) } );
+
+			} );
 
 			geomap.map.addControl( myControl );
 
