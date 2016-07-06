@@ -241,7 +241,11 @@ var componentName = "wb-geomap",
 
 		this.map = map;
 		this.symbolMapArray = [];
-		this.target = $( ".wb-geomap-legend" ).attr( "id", "geomap-legend-" + map.id );
+		this.target = $( "#" + map.id + ".wb-geomap" ).find( ".wb-geomap-legend" );
+		this.target.attr( "id", "geomap-legend-" + map.id );
+
+		// remove the placehoders
+		this.target.empty();
 
 		return this;
 	},
@@ -1403,7 +1407,7 @@ var componentName = "wb-geomap",
 		button = document.createElement('button');
 		button.setAttribute( "type", "button" );
 		button.setAttribute( "title", i18nText.geolocBtn );
-		//button.innerHTML = "<span class='glyphicon glyphicon-map-marker'></span>";
+		button.innerHTML = "<span class='glyphicon glyphicon-screenshot'></span>";
 
 		element = document.createElement( "div" );
 		element.className = "ol-geolocate ol-unselectable ol-control";
@@ -1478,15 +1482,21 @@ var componentName = "wb-geomap",
 				_this.featuresOverlay.getSource().addFeatures( createFeatures() );
 				_this.geolocation.setTracking( true );
 
+				$( this ).html( "<span style='color:green;' class='glyphicon glyphicon-screenshot'></span>" );
+
 			} else if ( _this.featuresOverlay.getSource().getFeatures().length === 0 ) {
 
 				_this.featuresOverlay.getSource().addFeatures( createFeatures() );
 				_this.geolocation.setTracking( true );
 
+				$( this ).html( "<span style='color:green;' class='glyphicon glyphicon-screenshot'></span>" );
+
 			} else {
 
 				_this.geolocation.setTracking( false );
 				_this.featuresOverlay.getSource().clear();
+
+				$( this ).html( "<span class='glyphicon glyphicon-screenshot'></span>" );
 
 			}
 
@@ -2338,8 +2348,7 @@ var componentName = "wb-geomap",
 
 		} else if ( _this.settings.type === "json" ) {
 
-			var olSource = new ol.source.Vector(),
-				style;
+			var olSource = new ol.source.Vector();
 
 			styleFactory = new StyleFactory();
 			colors = defaultColors();
@@ -2367,13 +2376,8 @@ var componentName = "wb-geomap",
 
 			// Set the style
 			olSource.once( "addfeature", function ( evt ) {
-				featureGeometry = evt.feature.getGeometry().getType();
-				style = styleFactory.createStyleFunction( 
-						_this.settings.style,
-					featureGeometry
-				);
-				olLayer.setStyle( style );
-			} ); 
+				olLayer.setStyle( styleFactory.createStyleFunction( _this.settings.style, featureGeometry ) );
+			} );
 
 			var successHandler = function ( data ) {
 
@@ -2381,7 +2385,7 @@ var componentName = "wb-geomap",
 					features = data[ layerRoot ] ? data[ layerRoot ] : data,
 					atts, bnds, feature, firstComponent, geom, geomProj, geomKey, i, len, path;
 
-				// In some cases an array is not returned, so create one
+				// in some cases an array is not returned, so create one
 				if ( features instanceof Array === false ) {
 					features = $.map( features, function( obj ) { return obj; } );
 				}
@@ -2621,7 +2625,6 @@ var componentName = "wb-geomap",
 		selectInteraction = new ol.interaction.Select( {
 			// TODO: apply style to selected feature
 //			style: function( feature, resolution ) {
-//				console.log( feature);
 //				return null; //feature.selectStyle;
 //			},
 			layers: _this.layers
@@ -2630,7 +2633,7 @@ var componentName = "wb-geomap",
 		// Add select event handler
 		selectInteraction.on( "select", function ( evt ) {
 
-			if ( evt.selected.length > 0 ) {
+			if ( evt.selected.length > 0 && typeof evt.selected[ 0 ].layerTitle !== "undefined" ) {
 				popups = getLayerById( this.getMap(), evt.selected[ 0 ].layerId ).popups;
 
 				$( "#cb_" + evt.selected[ 0 ].getId() ).prop( "checked", true ).closest( "tr" ).addClass( "active" );
