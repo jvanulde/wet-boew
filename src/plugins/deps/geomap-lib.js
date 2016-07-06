@@ -2660,9 +2660,12 @@ var componentName = "wb-geomap",
 
 		if ( _this.settings.useMapControls ) {
 
+			var element = document.createElement( "span" );
+			element.className = "glyphicon glyphicon-fullscreen";
+
 			extentCtrl = new ol.control.ZoomToExtent( { 
 				extent: map.getView().calculateExtent( map.getSize() ),
-				label: $( "<span class='glyphicon glyphicon-fullscreen'></span>" )
+				label: element
 			} );
 			map.addControl( extentCtrl );
 			extentCtrl.element.setAttribute( "aria-label", i18nText.zoomworld );

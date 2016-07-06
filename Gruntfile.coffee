@@ -539,14 +539,6 @@ module.exports = (grunt) ->
 				map: "src/plugins/share/assets/sprites_share.png"
 				staticImagePath: '#{$wb-assets-path}'
 				output: "scss"
-			geomap:
-				src: [
-					"src/plugins/geomap/sprites/*.png"
-				]
-				css: "src/plugins/geomap/sprites/_sprites_geomap.scss"
-				map: "src/plugins/geomap/assets/sprites_geomap.png"
-				staticImagePath: '#{$wb-assets-path}'
-				output: "scss"
 
 		sasslint:
 			options:
@@ -1027,7 +1019,7 @@ module.exports = (grunt) ->
 						"google-code-prettify/src/*.js"
 						"DataTables/media/js/jquery.dataTables.js"
 						"proj4/dist/proj4.js"
-						"openlayers/ol-debug.js"
+						"openlayers/build/ol-debug.js"
 					]
 					dest: "<%= coreDist %>/js/deps"
 					rename: (dest, src) ->
