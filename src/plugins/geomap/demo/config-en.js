@@ -62,13 +62,12 @@ var wet_boew_geomap = {
 		},
 		{
 			title: "KML",
-			caption: "This map contains data extracted from the <a href=\"http://geogratis.gc.ca/api/en/nrcan-rncan/ess-sst/457ede2f-fd65-5936-ab60-3fe71da0e98b\">Principal mineral areas of Canada</a> publication. Published annually by Natural Resources Canada, this data contains statistics on Canada's mineral production and provides the geographic locations of significant metallic, nonmetallic and industrial mineral mines, and oil sands mines for the provinces and territories of Canada.",
+			caption: "This data is extracted from the <a href=\"http://geogratis.gc.ca/api/en/nrcan-rncan/ess-sst/457ede2f-fd65-5936-ab60-3fe71da0e98b\">Principal mineral areas of Canada</a> publication.",
 			type: "kml",
 			url: "demo/producing-mines.kml",
 			visible: false,
 			datatable: true,
 			popups: true,
-			tab: false,
 			attributes: {
 				Type_: "Type",
 				OwnersE: "Owner",
@@ -172,7 +171,6 @@ var wet_boew_geomap = {
 			attributes: {
 				Name: "Name"
 			},
-			tab: false,
 			visible: false,
 			zoom: true,
 			style: {
@@ -194,7 +192,6 @@ var wet_boew_geomap = {
 			datatable: true,
 			root: "products",
 			popups: true,
-			tab: false,
 			attributes: {
 				title: "Title",
 				summary: "Abstract",
@@ -208,7 +205,6 @@ var wet_boew_geomap = {
 			url: "http://www.earthquakescanada.nrcan.gc.ca/api/earthquakes/latest/7d.json",
 			visible: false,
 			popups: true,
-			tab: false,
 			datatable: true,
 			zoom: true,
 			attributes: {
@@ -319,7 +315,6 @@ var wet_boew_geomap = {
 			visible: false,
 			zoom: true,
 			datatable: true,
-			tab: false,
 			style: {
 				type: "symbol",
 				init: {

@@ -70,7 +70,7 @@ var wet_boew_geomap = {
 		},
 		{
 			title: "KML",
-			caption: "*NEEDS TRANSLATION*This map contains data extracted from the <a href=\"http://geogratis.gc.ca/api/fr/nrcan-rncan/ess-sst/457ede2f-fd65-5936-ab60-3fe71da0e98b\">Principal mineral areas of Canada</a> publication. Published annually by Natural Resources Canada, this data contains statistics on Canada's mineral production and provides the geographic locations of significant metallic, nonmetallic and industrial mineral mines, and oil sands mines for the provinces and territories of Canada.",
+			caption: "*NEEDS TRANSLATION*This data is extracted from the <a href=\"http://geogratis.gc.ca/api/en/nrcan-rncan/ess-sst/457ede2f-fd65-5936-ab60-3fe71da0e98b\">Principal mineral areas of Canada</a> publication.",
 			type: "kml",
 			url: "demo/producing-mines.kml",
 			visible: false,
@@ -159,33 +159,6 @@ var wet_boew_geomap = {
 				}
 			}
 		},
-//		{
-//			title: "ATOM Demo",
-//			caption: "Ceci est un exemple de fil ATOM chargé localement par Géocarte.",
-//			type: "atom",
-//			url: "demo/sample_fr.atom",
-//			attributes: {
-//				title: "Titre",
-//				summary: "À propos de ce jeux de données"
-//			},
-//			visible: false,
-//			datatable: false,
-//			tab: true
-//		},
-//		{
-//			title: "GeoRSS Demo",
-//			caption: "Ceci est un exemple de fil GeoRSS chargé localement par Géocarte.",
-//			type: "georss",
-//			url: "demo/sample_fr.rss",
-//			attributes: {
-//				title: "Titre",
-//				description: "Description",
-//				link: "Pour plus d'information"
-//			},
-//			visible: false,
-//			datatable: false,
-//			tab: true
-//		},
 		{
 			title: "TopoJSON (World 110m)",
 			caption: "This is a sample dataset loaded from a remote TopoJSON resource.",
@@ -205,7 +178,6 @@ var wet_boew_geomap = {
 			attributes: {
 				Name: "Name"
 			},
-			tab: false,
 			visible: false,
 			zoom: true,
 			style: {
@@ -225,7 +197,6 @@ var wet_boew_geomap = {
 			},
 			visible: false,
 			datatable: false,
-			tab: true,
 			popups: true,
 			root: "products",
 			attributes: {
@@ -252,9 +223,6 @@ var wet_boew_geomap = {
 			visible: false,
 			zoom: true,
 			datatable: true,
-			tab: true,
-
-			// default style
 			style: {
 				type: "symbol",
 				init: {

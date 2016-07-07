@@ -263,19 +263,6 @@ var componentName = "wb-geomap",
 		return intrctn;
 	},
 
-	/**
-	 * Get ol.control.Control
-	 */
-	getMapControl = function( map, controlType ) {
-		var ctrl;
-		map.getControls().forEach( function ( control ) {
-			if( control instanceof controlType ) { 
-				ctrl = control; 
-			}
-		});
-		return ctrl;
-	},
-
 	setRendererDimensions = function( id, map, feature, symbolWidth, symbolHeight ) {
 
 		var gb = feature.getGeometry().getExtent(),
@@ -350,7 +337,7 @@ var componentName = "wb-geomap",
 			styleType = style && style.type ? style.type : "default";
 
 			// called on each feature
-			return function( feature, resolution ) {
+			return function( feature ) {
 
 				if ( styleType === "rule" ) {
 
@@ -379,7 +366,7 @@ var componentName = "wb-geomap",
 			var styleRule = style.rule,
 				len = styleRule.length,
 				operators = {
-					"EQUAL_TO": function( a, b ) { return a == b[ 0 ]; },
+					"EQUAL_TO": function( a, b ) { return String( a ) === String( b[ 0 ] ); },
 					"GREATER_THAN": function( a, b ) { return a > b[ 0 ]; },
 					"LESS_THAN": function( a, b ) { return a < b[ 0 ]; },
 					"BETWEEN": function( a, b ) { return a >= b[ 0 ] && a <= b[ 1 ]; }
@@ -507,7 +494,7 @@ var componentName = "wb-geomap",
 		var UniqueStyle = function ( feature, featureType ) {
 
 			var field = style.field,
-				name, obj, objStyle;
+				obj, objStyle;
 
 			for ( obj in style.init ) {
 				objStyle = style.init[ obj ];
@@ -875,24 +862,6 @@ var componentName = "wb-geomap",
 
 		return map;
 
-	},
-
-	/**
-	 * Get the OpenLayers map object
-	 * 
-	 * @return {Geomap}
-	 */
-	getMap = function() {
-
-		var mapArrayItem,
-			map = {},
-			len;
-
-		for ( len = mapArray.length - 1; len !== -1; len -= 1 ) { 
-			mapArrayItem = mapArray[ len ];
-			map[ mapArrayItem.id ] = mapArrayItem;
-		}
-		return map;
 	},
 
 	/**
@@ -1280,7 +1249,7 @@ var componentName = "wb-geomap",
 				return this.value === val;
 			} ).data( "lat-lon" );
 
-			if ( bbox != null ) {
+			if ( bbox !== null ) {
 
 				bnds = bbox.split(","); // TODO loop and parseFloat() on coords
 				dens = densifyBBox( parseFloat( bnds[ 0 ] ), parseFloat( bnds[ 1 ] ), parseFloat( bnds[ 2 ] ), parseFloat( bnds[ 3 ] ) );
@@ -1298,7 +1267,7 @@ var componentName = "wb-geomap",
 				// zoom to extent of feature
 				geomap.map.getView().fit( feat.getGeometry().getExtent(), geomap.map.getSize() );
 
-			} else if ( ll != null ) {
+			} else if ( ll !== null ) {
 
 				zoom = geomap.map.getView().getZoom() === 0 ? 12 : geomap.map.getView().getZoom();
 				feat = new ol.Feature( {
@@ -1552,8 +1521,6 @@ var componentName = "wb-geomap",
 		return newbounds;
 	},
 
-	
-
 	/*
 	 * Refresh WET plugins
 	 */
@@ -1602,10 +1569,6 @@ var componentName = "wb-geomap",
 	generateGuid = function() {
 		return Math.random().toString( 36 ).slice( 2 );
 	};
-
-	ol.inherits( GeolocationControl, ol.control.Control );
-	ol.inherits( HelpControl, ol.control.Control );
-	ol.inherits( GeocodeControl, ol.control.Control );
 
 	// Handle the Zoom to button events
 	$document.on( "click", ".geomap-zoomto", function( evt ) {
@@ -1877,7 +1840,7 @@ var componentName = "wb-geomap",
 
 		return removeNullKeys( viewOptions );
 
-	};
+	}
 
 	/**
 	 * Create Legend
@@ -1941,7 +1904,7 @@ var componentName = "wb-geomap",
 
 		$( "#sb_" + this.id ).toggle( this.settings.visible );
 
-	};
+	}
 
 	/**
 	 * Add tabluar data
@@ -2077,8 +2040,6 @@ var componentName = "wb-geomap",
 				}
 			}
 
-			
-
 			mapLayer = new MapLayer( this, {
 				tableId: $table.attr( "id" ),
 				type: "wkt",
@@ -2095,7 +2056,7 @@ var componentName = "wb-geomap",
 			this.mapLayers.push( mapLayer );
 
 		}
-	};
+	}
 
 	/**
 	 * Create layers
@@ -2187,8 +2148,8 @@ var componentName = "wb-geomap",
 		head = "<thead><tr>" + head + ( _this.map.settings.useMapControls && _this.settings.zoom ? "<th><span class='wb-inv'>" + i18nText.zoomFeature + "</span></th>" : "" ) + "</tr></thead>";
 
 		// Create the table body rows
-		for ( var i = 0; i < features.length || function(){ refreshPlugins( _this.map ); return false; }(); i += 1 ) {
-//		for ( var i = 0, len = features.length; i < len; i += 1 ) {
+//		for ( var i = 0; i < features.length || ( function() { refreshPlugins( _this.map ); return false; }() ); i += 1 ) {
+		for ( var i = 0; i < features.length; i += 1 ) {
 
 			body += "<tr>" + addChkBox( _this, features[ i ] );
 
@@ -2218,8 +2179,10 @@ var componentName = "wb-geomap",
 			return len;
 		}
 
+		refreshPlugins( _this.map );
+
 		return $table;
-	};
+	}
 
 	/**
 	 * Create OpenLayers Layer
@@ -2375,7 +2338,7 @@ var componentName = "wb-geomap",
 			}
 
 			// Set the style
-			olSource.once( "addfeature", function ( evt ) {
+			olSource.once( "addfeature", function () {
 				olLayer.setStyle( styleFactory.createStyleFunction( _this.settings.style, featureGeometry ) );
 			} );
 
@@ -2589,7 +2552,7 @@ var componentName = "wb-geomap",
 
 		return olLayer;
 
-	};
+	}
 
 	/**
 	 * Handle visibility change events
@@ -2609,7 +2572,7 @@ var componentName = "wb-geomap",
 
 		this.layer.setVisible( visible );
 
-	};
+	}
 
 	/**
 	 * Load controls and interactions
@@ -2706,12 +2669,12 @@ var componentName = "wb-geomap",
 			_this.map.addControl( new GeolocationControl( { projection: _this.map.getView().getProjection() } ) );
 		}
 
-	};
+	}
 
 	/**
 	 * Create an overlay to anchor the popup to the map.
 	 */
-	Geomap.prototype.createPopup = function(){
+	Geomap.prototype.createPopup = function() {
 
 		var _this = this,
 			$closer, overlay, $popup;
@@ -2741,7 +2704,7 @@ var componentName = "wb-geomap",
 		});
 
 		_this.map.addOverlay( overlay );
-	};
+	}
 
 	/**
 	 * Add accessibility enhancements
@@ -2772,7 +2735,7 @@ var componentName = "wb-geomap",
 		// Add the map instructions
 		new HelpControl( _this );
 
-	};
+	}
 
 	/**
 	 * Add the layer symbology to the legend
@@ -2901,7 +2864,7 @@ var componentName = "wb-geomap",
 			_this.getSymbol( symbol.id, symbol.feature, symbol.symbolizer );
 		}
 
-	},
+	}
 
 	/**
 	 * Get legend symbols
@@ -3021,7 +2984,7 @@ var componentName = "wb-geomap",
 		rendererMap.setTarget( id );
 		setRendererDimensions( id, rendererMap, pseudoFeature, width, height );
 
-	};
+	}
 
 	/**
 	 * Refresh the legend symbols
@@ -3038,6 +3001,10 @@ var componentName = "wb-geomap",
 			}
 		}
 
-	};
+	}
+
+	ol.inherits( GeolocationControl, ol.control.Control );
+	ol.inherits( HelpControl, ol.control.Control );
+	ol.inherits( GeocodeControl, ol.control.Control );
 
 } )( jQuery, window, document, wb );
