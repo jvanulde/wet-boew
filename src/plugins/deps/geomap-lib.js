@@ -134,9 +134,14 @@ var componentName = "wb-geomap",
 
 		}
 
-		// Provide for easy access to OpenLayers map object
-		wb.getMap = function( id ) { 
+		// Provide for easy access to OpenLayers olMap object
+		wb.getMap = function( id ) {
 			return getMapById( id );
+		};
+
+		//Provide for easy access to OpenLayers olLayer object
+		wb.getLayer = function( map, id ) {
+			return getLayerById( map, id );
 		};
 
 	},
@@ -215,8 +220,8 @@ var componentName = "wb-geomap",
 
 		// Add a section to hold the data table
 		if ( this.settings.accessible ) {
-			this.map.layerDiv.append( "<section class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'>" + 
-					this.settings.title + "</h4></div><div class='panel-body'><div data-layer='" + 
+			this.map.layerDiv.append( "<section class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'>" +
+					this.settings.title + "</h4></div><div class='panel-body'><div data-layer='" +
 					this.id + "' class='geomap-table-wrapper' style='display:none;'></div></div></section>" );
 		}
 
@@ -233,7 +238,7 @@ var componentName = "wb-geomap",
 
 	/**
 	 * MapLegend Object
-	 * 
+	 *
 	 * @param {Geomap}
 	 * @return {MapLegend}
 	 */
@@ -256,7 +261,7 @@ var componentName = "wb-geomap",
 	getMapInteraction = function( map, interactionType ) {
 		var intrctn;
 		map.getInteractions().forEach( function ( interaction ) {
-			if ( interaction instanceof interactionType ) { 
+			if ( interaction instanceof interactionType ) {
 				intrctn = interaction;
 			}
 		});
@@ -408,9 +413,9 @@ var componentName = "wb-geomap",
 									radius: radius
 								} );
 							} else if ( externalGraphic ) {
-								return getIconStyle( { 
-									src: externalGraphic, 
-									opacity: opacity, 
+								return getIconStyle( {
+									src: externalGraphic,
+									opacity: opacity,
 									size: [ graphicWidth, graphicHeight ]
 								} );
 							} else {
@@ -456,9 +461,9 @@ var componentName = "wb-geomap",
 					radius: radius
 				} );
 			} else if ( externalGraphic ) {
-				return getIconStyle( { 
-					src: externalGraphic, 
-					opacity: opacity, 
+				return getIconStyle( {
+					src: externalGraphic,
+					opacity: opacity,
 					size: [ graphicWidth, graphicHeight ]
 				} );
 			} else {
@@ -522,7 +527,7 @@ var componentName = "wb-geomap",
 					case "Point" || "MultiPoint":
 						if ( externalGraphic ) {
 							if ( feature.attributes && feature.attributes[ field ] === obj ) {
-								return getIconStyle( { 
+								return getIconStyle( {
 									src: externalGraphic,
 									opacity: opacity,
 									size: [ graphicWidth, graphicHeight ]
@@ -815,7 +820,7 @@ var componentName = "wb-geomap",
 
 	/**
 	 * Create map
-	 * 
+	 *
 	 * @return {ol.map} an OpenLayers map.
 	 */
 	createOLMap = function( geomap ) {
@@ -866,7 +871,7 @@ var componentName = "wb-geomap",
 
 	/**
 	 * Get the OpenLayers map object by id
-	 * 
+	 *
 	 * @return {Geomap}
 	 */
 	getMapById = function( id ) {
@@ -1103,11 +1108,11 @@ var componentName = "wb-geomap",
 			}
 
 			feat = new ol.Feature( {
-				geometry: new ol.geom.Polygon( [ coords ] ).transform( projLatLon, projMap ) 
+				geometry: new ol.geom.Polygon( [ coords ] ).transform( projLatLon, projMap )
 			} );
 
 			getLayerById( geomap.map, "locLayer" ).getSource().addFeature( feat );
-	
+
 			return feat;
 
 		}
@@ -1259,7 +1264,7 @@ var componentName = "wb-geomap",
 				}
 
 				feat = new ol.Feature( {
-					geometry: new ol.geom.Polygon( [ coords ] ).transform( projLatLon, projMap ) 
+					geometry: new ol.geom.Polygon( [ coords ] ).transform( projLatLon, projMap )
 				} );
 
 				getLayerById( geomap.map, "locLayer" ).getSource().addFeature( feat );
@@ -1271,7 +1276,7 @@ var componentName = "wb-geomap",
 
 				zoom = geomap.map.getView().getZoom() === 0 ? 12 : geomap.map.getView().getZoom();
 				feat = new ol.Feature( {
-					geometry: new ol.geom.Point( ll.split( "," ) ).transform( projLatLon, projMap ) 
+					geometry: new ol.geom.Point( ll.split( "," ) ).transform( projLatLon, projMap )
 				} );
 				getLayerById( geomap.map, "locLayer" ).getSource().addFeature( feat );
 
@@ -1364,7 +1369,7 @@ var componentName = "wb-geomap",
 			_this = this,
 			accuracyFeature, positionFeature,
 			button, coordinates, element;
-		
+
 		$( "body" ).append(
 			"<section id='overlay-location-error' class='wb-overlay modal-content overlay-def wb-bar-t bg-danger'>" +
 			"<header><h2 class='modal-title'>Geolocation error.</h2></header>" +
@@ -1389,7 +1394,7 @@ var componentName = "wb-geomap",
 			positionFeature = new ol.Feature();
 			accuracyFeature = new ol.Feature();
 
-			positionFeature.setStyle( getPointStyle( { 
+			positionFeature.setStyle( getPointStyle( {
 				radius: 6,
 				fill: new ol.style.Fill( {
 					color: "#3399CC"
@@ -1423,7 +1428,7 @@ var componentName = "wb-geomap",
 
 		} );
 
-		/* Handle errors. 
+		/* Handle errors.
 		 * Codes:
 			PERMISSION_DENIED: 1
 			POSITION_UNAVAILABLE: 2
@@ -1584,7 +1589,7 @@ var componentName = "wb-geomap",
 			geometry = mapLayerFeature[ 2 ].getGeometry();
 			extent = geometry.getExtent();
 			view = mapLayerFeature[ 0 ].getView();
-	
+
 			//TODO: rework, using undocumented function
 			if ( geometry.getType() === "Point" ) {
 				view.fit( extent, mapLayerFeature[ 0 ].getSize() );
@@ -1593,7 +1598,7 @@ var componentName = "wb-geomap",
 			} else {
 				view.fit( extent, mapLayerFeature[ 0 ].getSize() );
 			}
-	
+
 			$( "#" + mapId + " .wb-geomap-map" ).trigger( "setfocus.wb" );
 		}
 	} );
@@ -1602,7 +1607,7 @@ var componentName = "wb-geomap",
 	$document.on( "geomap.wb", selector, init );
 
 	// Update the map when the window is resized
-	$document.on( wb.resizeEvents, function() { 
+	$document.on( wb.resizeEvents, function() {
 
 		// Get window size: xlargeview, largeview, mediumview, smallview, xsmallview, xxsmallview
 //		windowSize = evt.type;
@@ -1630,9 +1635,9 @@ var componentName = "wb-geomap",
 		$( tbody ).find( ".geomap-cbx" ).prop( "checked", false );
 		$( tbody ).find( ".geomap-cbx" ).closest( "tr" ).removeClass( "active" );
 		selectInteraction.getFeatures().clear();
-	
+
 		checked ? $( target ).closest( "tr" ).addClass( "active" ) : $( target ).closest( "tr" ).removeClass( "active" );
-	
+
 		if ( checked ) {
 			$( target ).prop( "checked", true );
 			selectInteraction.getFeatures().push( feature );
@@ -1701,7 +1706,7 @@ var componentName = "wb-geomap",
 				olLayers.push(
 					new ol.layer.Image( {
 						extent: viewOptions.extent,
-						source: new ol.source.ImageWMS( { 
+						source: new ol.source.ImageWMS( {
 							url: basemap.url,
 							params: params
 						} )
@@ -1742,7 +1747,7 @@ var componentName = "wb-geomap",
 
 			} else if ( basemap.type === "osm" ) {
 
-				olLayers.push( 
+				olLayers.push(
 					new ol.layer.Tile( {
 						source : new ol.source.OSM( { attributions: [ ol.source.OSM.ATTRIBUTION ] } )
 					} )
@@ -1817,7 +1822,7 @@ var componentName = "wb-geomap",
 					attributions : [ new ol.Attribution( {
 						html : "<a href='" + i18nText.attribLink + "'>\u00A9" + i18nText.attribTitle + "</a>"
 					} ) ],
-					url : "http://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBCT3978/MapServer/WMTS/",
+					url : "//geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBCT3978/MapServer/WMTS/",
 					layer : i18nText.baseMapTitle,
 					matrixSet : "nativeTileMatrixSet",
 					projection : projection,
@@ -1962,10 +1967,10 @@ var componentName = "wb-geomap",
 
 			// Add select checkbox
 			theadTr.prepend( thSelect );
-			
+
 			colors = defaultColors();
 
-			style = typeof featureTable.style === "undefined" ? 
+			style = typeof featureTable.style === "undefined" ?
 					{ "strokeColor" : colors.stroke, "fillColor": colors.fill } :
 						featureTable.style;
 
@@ -2257,13 +2262,13 @@ var componentName = "wb-geomap",
 				featureGeometry = evt.feature.getGeometry().getType();
 
 				if ( !extractStyles ) {
-					var style = styleFactory.createStyleFunction( 
+					var style = styleFactory.createStyleFunction(
 							_this.settings.style,
 							featureGeometry
 					);
 					olLayer.setStyle( style );
 				}
-			}); 
+			});
 
 			source = olLayer.getSource();
 
@@ -2403,7 +2408,7 @@ var componentName = "wb-geomap",
 
 					// transform the feature
 					// TODO: support GeoJSON projections via OGC CRS URNs such as:
-					//		"urn:ogc:def:crs:OGC:1.3:CRS84" 
+					//		"urn:ogc:def:crs:OGC:1.3:CRS84"
 					geomProj = geom.transform( "EPSG:4326", _this.map.map.getView().getProjection() );
 
 					// Parse and store the attributes
@@ -2414,7 +2419,7 @@ var componentName = "wb-geomap",
 
 					for ( var name in layerAttributes ) {
 						path = null;
-						if ( layerAttributes.hasOwnProperty( name ) ) { 
+						if ( layerAttributes.hasOwnProperty( name ) ) {
 							path = layerAttributes[ name ].path;
 							if ( path ) {
 								atts[ layerAttributes[ name ].alias ] = feature[ name ] ? feature[ name ][ path ] : "";
@@ -2494,7 +2499,7 @@ var componentName = "wb-geomap",
 						featureGeometry
 				);
 				olLayer.setStyle( style );
-			}); 
+			});
 
 			// Wait until all features are loaded, then build table and symbolize legend
 			source = olLayer.getSource();
@@ -2626,7 +2631,7 @@ var componentName = "wb-geomap",
 			var element = document.createElement( "span" );
 			element.className = "glyphicon glyphicon-fullscreen";
 
-			extentCtrl = new ol.control.ZoomToExtent( { 
+			extentCtrl = new ol.control.ZoomToExtent( {
 				extent: map.getView().calculateExtent( map.getSize() ),
 				label: element
 			} );
@@ -2751,7 +2756,7 @@ var componentName = "wb-geomap",
 			title = "",
 			filter, ruleLen, symbolizer, i, j, len, rule, spanId;
 
-		if ( typeof style !== "undefined" && style.rule ) { 
+		if ( typeof style !== "undefined" && style.rule ) {
 
 			ruleLen = style.rule.length;
 
@@ -2769,7 +2774,7 @@ var componentName = "wb-geomap",
 							title = filter.name;
 						} else {
 							switch ( filter ) {
-								case "EQUAL_TO": 
+								case "EQUAL_TO":
 									title = rule.field + " = " + rule.value[ 0 ];
 									break;
 								case "GREATER_THAN":
@@ -2787,18 +2792,18 @@ var componentName = "wb-geomap",
 						title = rule.name;
 					}
 
-					symbolList += "<li>" + 
+					symbolList += "<li>" +
 						"<div class='geomap-legend-element'>" +
-							"<div id='" + spanId + "' class='geomap-legend-symbol'></div>" + 
+							"<div id='" + spanId + "' class='geomap-legend-symbol'></div>" +
 							"<span class='geomap-legend-symbol-text'><small>" + title + "</small></span>" +
-						"</div>" + 
+						"</div>" +
 					"</li>";
 
 					symbolItems.push( { "id": spanId, "feature": feature, "symbolizer": symbolizer } );
 				}
 
-			} 
-		
+			}
+
 		}  else if ( typeof style !== "undefined" && style.type === "unique" ) {
 
 			j = 0;
@@ -2808,11 +2813,11 @@ var componentName = "wb-geomap",
 				symbolizer = style.init[ obj ];
 				title = symbolizer.name ? symbolizer.name : obj;
 
-				symbolList += "<li>" + 
+				symbolList += "<li>" +
 					"<div class='geomap-legend-element'>" +
-						"<div id='" + spanId + "' class='geomap-legend-symbol'></div>" + 
+						"<div id='" + spanId + "' class='geomap-legend-symbol'></div>" +
 						"<span class='geomap-legend-symbol-text'><small>" + title + "</small></span>" +
-					"</div>" + 
+					"</div>" +
 				"</li>";
 
 				symbolItems.push( { "id": spanId, "feature": feature, "symbolizer": symbolizer } );
@@ -2825,30 +2830,30 @@ var componentName = "wb-geomap",
 			symbolizer = style.init;
 			title = symbolizer.name ? symbolizer.name : "";
 
-			symbolList += "<li>" + 
+			symbolList += "<li>" +
 				"<div class='geomap-legend-element'>" +
-					"<div id='" + spanId + "' class='geomap-legend-symbol'></div>" + 
+					"<div id='" + spanId + "' class='geomap-legend-symbol'></div>" +
 					"<span class='geomap-legend-symbol-text'><small>" + title + "</small></span>" +
-				"</div>" + 
+				"</div>" +
 			"</li>";
 
 			symbolItems.push( { "id": spanId, "feature": feature, "symbolizer": symbolizer } );
-		
+
 		} else {
 
 			spanId = "ls_" + layerName + "_0";
-			symbolizer = { 
+			symbolizer = {
 				"fillColor":  style.fillColor,
 				"strokeColor": style.strokeColor,
 				"strokeWidth": style.strokeWidth,
 				"strokeDash" : style.strokeDash
 			};
 
-			symbolList += "<li>" + 
+			symbolList += "<li>" +
 				"<div class='geomap-legend-element'>" +
-					"<div id='" + spanId + "' class='geomap-legend-symbol'></div>" + 
+					"<div id='" + spanId + "' class='geomap-legend-symbol'></div>" +
 					"<span class='geomap-legend-symbol-text'><small>" + title + "</small></span>" +
-				"</div>" + 
+				"</div>" +
 			"</li>";
 
 			symbolItems.push( { "id": spanId, "feature": feature, "symbolizer": symbolizer } );
@@ -2918,9 +2923,9 @@ var componentName = "wb-geomap",
 						radius: radius
 					} );
 				} else if ( externalGraphic ) {
-					style = getIconStyle( { 
-						src: externalGraphic, 
-						opacity: opacity, 
+					style = getIconStyle( {
+						src: externalGraphic,
+						opacity: opacity,
 						size: [ graphicWidth, graphicHeight ]
 					} );
 				} else {

@@ -176,7 +176,7 @@ var wet_boew_geomap = {
 			type: "esrijson",
 			url: "//geoappext.nrcan.gc.ca/arcgis/rest/services/NEB/Pipeline/MapServer/0/query?where=OBJECTID>0&f=pjson",
 			attributes: {
-				Name: "Name"
+				OPERATOR: "Opérateur"
 			},
 			visible: false,
 			zoom: true,

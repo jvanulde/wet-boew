@@ -21,7 +21,7 @@ var wet_boew_geomap = {
 	basemap: {
 		title: "WMS-Toporama",
 		type: "wms",
-		url: "http://maps.geogratis.gc.ca/wms/toporama_fr",
+		url: "//maps.geogratis.gc.ca/wms/toporama_fr",
 		version: "1.3.0",
 		format: "image/png",
 		layers: "WMS-Toporama",

@@ -11,20 +11,6 @@
 var $document = wb.doc,
 	mapSample;
 
-$document.zoomFeature = function() {
-	var layer = mapSample.getLayersByName( "cities" )[ 0 ],
-		feats = layer.features,
-		len;
-
-	for ( len = layer.features.length - 1; len !== -1; len -= 1 ) {
-		if ( feats[ len ].popup ) {
-			if ( feats[ len ].popup.visible() ) {
-				mapSample.zoomToExtent( feats[ len ].geometry.bounds );
-			}
-		}
-	}
-};
-
 $document.on( "wb-ready.wb-geomap", "#sample_map", function( event, map ) {
 
 	// Get the sample_map to use in zoomFeature function
@@ -49,8 +35,6 @@ $document.on( "wb-ready.wb-geomap", "#sample_map", function( event, map ) {
 $document.on( "wb-ready.wb-geomap", "#location_map", function( event, map ) {
 
 	// Zoom to location on location_map
-	//map.zoomToExtent( map.getLayer( "#addNRCan" ).getDataExtent() );
-	
 	map.getView().setCenter( ol.proj.transform( [ -75.70535, 45.3995 ], "EPSG:4326", "EPSG:3978" ) );
 	map.getView().setZoom( 5 );
 } );
