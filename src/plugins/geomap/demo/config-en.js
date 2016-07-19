@@ -164,10 +164,10 @@ var wet_boew_geomap = {
 			}
 		},
 		{
-			title: "EsriJSON (NF TCT)",
-			caption: "This is a sample dataset loaded from a remote Esri JSON resource, in this case the NF TCT.",
+			title: "EsriJSON",
+			caption: "This is a sample dataset loaded from a remote Esri JSON resource.",
 			type: "esrijson",
-			url: "http://tctrail.ca/arcgis/rest/services/MapServices/TCTrails/MapServer/1/query?where=ID_Province='01'&f=pjson",
+			url: "//geoappext.nrcan.gc.ca/arcgis/rest/services/NEB/Pipeline/MapServer/0/query?where=OBJECTID>0&f=pjson",
 			attributes: {
 				Name: "Name"
 			},
@@ -176,14 +176,14 @@ var wet_boew_geomap = {
 			style: {
 				strokeColor: "#FF0000",
 				strokeWidth: 2.0,
-				strokeDash: [ 6, 4 ]
+				strokeDash: [ 6, 6 ]
 			}
 		},
 		{
 			title: "JSON (GeoGratis)",
 			caption: "This is a sample dataset loaded from a remote JSON resource, in this case the GeoGratis API.",
 			type: "json",
-			url: "http://geogratis.gc.ca/api/en/nrcan-rncan/ess-sst",
+			url: "//geogratis.gc.ca/api/en/nrcan-rncan/ess-sst",
 			params: {
 				alt: "json",
 				q: "alluvial"
@@ -202,7 +202,7 @@ var wet_boew_geomap = {
 			title: "JSON (Earthquakes)",
 			caption: "This is a sample dataset loaded from a remote JSON resource, in this case the Earthquakes API.",
 			type: "json",
-			url: "http://www.earthquakescanada.nrcan.gc.ca/api/earthquakes/latest/7d.json",
+			url: "//www.earthquakescanada.nrcan.gc.ca/api/earthquakes/latest/7d.json",
 			visible: false,
 			popups: true,
 			datatable: true,
@@ -301,7 +301,7 @@ var wet_boew_geomap = {
 			title: "GeoJSON (CartoDB)",
 			caption: "This is a sample dataset loaded from a remote GeoJSON resource, in this case traffic cameras in the city of Ottawa from the CartoDB API.",
 			type: "geojson",
-			url: "http://stephenott.cartodb.com/api/v2/sql",
+			url: "//stephenott.cartodb.com/api/v2/sql",
 			params: {
 				format: "GeoJSON",
 				q: "SELECT * FROM traffic_cameras LIMIT 25"

@@ -40,7 +40,7 @@ var wet_boew_geomap = {
 			title: "WMS",
 			caption: " Ceci est un exemple de service WMS chargé à l’aide de Géomap.",
 			type: "wms",
-			url: "http://geo.weather.gc.ca/geomet/?Lang=F",
+			url: "//geo.weather.gc.ca/geomet/?Lang=F",
 			visible: false,
 			version: "1.1.1",
 			format: "image/png",
@@ -49,7 +49,7 @@ var wet_boew_geomap = {
 			options: {
 				opacity: 0.5,
 
-				//legendGraphicUrl: "http://geo.weather.gc.ca/geomet/?Lang=E&LAYERS=GDPS.ETA_PR&VERSION=1.1.1&FORMAT=image%2Fpng&SERVICE=WMS&REQUEST=GetLegendGraphic&STYLE=PRECIPMM"
+				//legendGraphicUrl: "//geo.weather.gc.ca/geomet/?Lang=E&LAYERS=GDPS.ETA_PR&VERSION=1.1.1&FORMAT=image%2Fpng&SERVICE=WMS&REQUEST=GetLegendGraphic&STYLE=PRECIPMM"
 				legendHTML: "<small>GeoMet Precipitation (mm)</small>" +
 						"<ul class='list-unstyled'>" +
 						"<li><span style='background-color:#800000;display:inline-block;height:20px;width:20px'/> <small>100.0</small></li>" +
@@ -161,7 +161,7 @@ var wet_boew_geomap = {
 		},
 		{
 			title: "TopoJSON (World 110m)",
-			caption: "This is a sample dataset loaded from a remote TopoJSON resource.",
+			caption: "*NEEDS TRANSLATION*This is a sample dataset loaded from a remote TopoJSON resource.",
 			type: "topojson",
 			url: "demo/topojson.json",
 			accessible: false,
@@ -171,10 +171,10 @@ var wet_boew_geomap = {
 			}
 		},
 		{
-			title: "EsriJSON (NF TCT)",
-			caption: "This is a sample dataset loaded from a remote Esri JSON resource, in this case the NF TCT.",
+			title: "EsriJSON",
+			caption: "*NEEDS TRANSLATION*This is a sample dataset loaded from a remote Esri JSON resource.",
 			type: "esrijson",
-			url: "http://tctrail.ca/arcgis/rest/services/MapServices/TCTrails/MapServer/1/query?where=ID_Province='01'&f=pjson",
+			url: "//geoappext.nrcan.gc.ca/arcgis/rest/services/NEB/Pipeline/MapServer/0/query?where=OBJECTID>0&f=pjson",
 			attributes: {
 				Name: "Name"
 			},
@@ -190,7 +190,7 @@ var wet_boew_geomap = {
 			title: "JSON (GeoGratis)",
 			caption: "Ceci est un exemple d'un jeu de données JSON chargé à partir d'un site externe, dans ce cas-ci Géogratis.",
 			type: "json",
-			url: "http://geogratis.gc.ca/api/fr/nrcan-rncan/ess-sst",
+			url: "//geogratis.gc.ca/api/fr/nrcan-rncan/ess-sst",
 			params: {
 				alt: "json",
 				q: "alluvial"
@@ -209,7 +209,7 @@ var wet_boew_geomap = {
 			title: "GeoJSON (CartoDB)",
 			caption: "Ceci est un exemple d'un jeu de données JSON chargé à partir d'un site externe, dans ce cas-ci les caméras de circulation de la ville d'Ottawa à partir du site Carto DB.",
 			type: "geojson",
-			url: "http://stephenott.cartodb.com/api/v2/sql",
+			url: "//stephenott.cartodb.com/api/v2/sql",
 			params: {
 				format: "GeoJSON",
 				q: "SELECT * FROM traffic_cameras LIMIT 25"
