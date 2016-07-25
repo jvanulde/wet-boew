@@ -13,7 +13,7 @@ var componentName = "wb-geomap",
 	$document = wb.doc,
 	colourIndex = 0,
 	mapArray = [],
-	i18n, i18nText,
+	i18n, i18nText, tooltip,
 
 	/*
 	 * Plugin users can override these defaults by setting attributes on the html elements that the
@@ -857,13 +857,50 @@ var componentName = "wb-geomap",
 		// Everytime the map view is changed, fire the updated event
 		map.on( "moveend", function() {
 
-			// Every time we zoom/pan we need to put back the alt for OpenLayers tiles
-			// TODO check if .olTileImage class is still valid
-//			$( ".olTileImage" ).attr( "alt", "" );
-
 			$( geomap.id ).trigger( "wb-updated" + selector, [ geomap.map ] );
 
 		} );
+
+		geomap.mapDiv.append( "<div id='tooltip_" + geomap.id + "' style='display:none;'><span class='tooltip-txt'></span></div>");
+
+		var displayFeatureInfo = function( pixel ) {
+			
+			tooltip = $( '#tooltip_' + geomap.id );
+			
+			var tooltipTxt = $( '#tooltip_' + geomap.id + " span.tooltip-txt" ),
+				feature;
+
+			tooltip.css(  {
+				left: pixel[0] + 'px',
+				top: (pixel[1] - 15) + 'px',
+				position: 'absolute'
+			} );
+
+			feature = map.forEachFeatureAtPixel(pixel, function(feature) {
+				return feature;
+			});
+
+			if ( feature && feature.tooltip ) {
+				tooltip.hide();
+				tooltipTxt.html( feature.tooltip );
+				tooltip.show();
+			} else {
+				tooltip.hide();
+			}
+		};
+
+		map.on( "pointermove", function( evt ) {
+
+			tooltip = $( "#tooltip_" + geomap.id );
+
+			if (evt.dragging) {
+				tooltip.hide();
+				return;
+			}
+			displayFeatureInfo(map.getEventPixel(evt.originalEvent));
+
+			return;
+		});
 
 		return map;
 
@@ -1819,9 +1856,9 @@ var componentName = "wb-geomap",
 
 			olLayers.push( new ol.layer.Tile( {
 				source : new ol.source.WMTS( {
-					attributions : [ new ol.Attribution( {
-						html : "<a href='" + i18nText.attribLink + "'>\u00A9" + i18nText.attribTitle + "</a>"
-					} ) ],
+					// attributions : [ new ol.Attribution( {
+					// 	html : "<a href='" + i18nText.attribLink + "'>\u00A9" + i18nText.attribTitle + "</a>"
+					// } ) ],
 					url : "//geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBCT3978/MapServer/WMTS/",
 					layer : i18nText.baseMapTitle,
 					matrixSet : "nativeTileMatrixSet",
@@ -1986,7 +2023,7 @@ var componentName = "wb-geomap",
 				geomType = trElmsInd.getAttribute( "data-type" );
 				features = trElmsInd.getElementsByTagName( "td" );
 
-				for ( len = features.length - 1; len !== -1; len -= 1 ) {
+				for ( len = 0; len < features.length; len += 1 ) {
 
 					// Use innerHTML instead of innerText or textContent because they react differently in different browser
 					// remove script tag from the attribute
@@ -2024,12 +2061,16 @@ var componentName = "wb-geomap",
 
 					vectorFeature = wktParser.readFeature( wktFeature, {
 						dataProjection: "EPSG:4326",
-						featureProjection: this.map.getView().getProjection()
+						featureProjection: this.map.getView().getProjection(),
 					} );
 
 					vectorFeature.setId( generateGuid() );
 					vectorFeature.layerId = featureTable.id;
 					vectorFeature.layerTitle = $table.attr( "aria-label" );
+
+					if ( featureTable.tooltips ) {
+						vectorFeature.tooltip = featureTable.tooltipText ? attrMap[ featureTable.tooltipText ] : attrMap[ Object.keys( attrMap )[ 0 ] ];
+					}
 
 					// Set the table row id
 					trElmsInd.setAttribute( "id", vectorFeature.getId().replace( vectRegex, "_" ) );
@@ -2052,6 +2093,8 @@ var componentName = "wb-geomap",
 				datatable: featureTable.datatable,
 				popupsInfo: featureTable.popupsInfo,
 				popups: featureTable.popups,
+				tooltips: featureTable.tooltips,
+				tooltipText: featureTable.tooltipText,
 				name: featureTable.id,
 				title: $table.attr( "aria-label" ),
 				features: featureArray,
@@ -2304,6 +2347,10 @@ var componentName = "wb-geomap",
 						}
 						feature.attributes = atts;
 
+						if ( _this.settings.tooltips ) {
+							feature.tooltip = _this.settings.tooltipText ? atts[ _this.settings.tooltipText ] : atts[ Object.keys( atts )[ 0 ] ];
+						}
+
 					}
 
 					// Populate table with feature data
@@ -2437,6 +2484,10 @@ var componentName = "wb-geomap",
 					feature.setGeometry( geomProj );
 					olSource.addFeature( feature );
 
+					if ( _this.settings.tooltips ) {
+						feature.tooltip = _this.settings.tooltipText ? atts[ _this.settings.tooltipText ] : atts[ Object.keys( atts )[ 0 ] ];
+					}
+
 				}
 
 				// Populate table with feature data
@@ -2529,7 +2580,12 @@ var componentName = "wb-geomap",
 								atts[ layerAttributes[ name ] ] = feature.getProperties()[ name ];
 							}
 						}
+
 						feature.attributes = atts;
+
+						if ( _this.settings.tooltips ) {
+							feature.tooltip = _this.settings.tooltipText ? atts[ _this.settings.tooltipText ] : atts[ Object.keys( atts )[ 0 ] ];
+						}
 
 					}
 

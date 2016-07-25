@@ -67,6 +67,8 @@ var wet_boew_geomap = {
 			url: "demo/producing-mines.kml",
 			visible: false,
 			datatable: true,
+			tooltips: true,
+			tooltipText: "Operation",
 			popups: true,
 			attributes: {
 				Type_: "Type",

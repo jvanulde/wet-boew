@@ -549,3 +549,30 @@
 .geomap-help-dialog:hover {
 	background-color: rgba(255,255,255,1);
 }
+
+.tooltip-txt::after {
+    content: " ";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgb(192, 192, 192) transparent transparent transparent;
+}
+
+.tooltip-txt {
+	border: solid 1px rgb(192, 192, 192);
+	position: absolute;
+	background: rgb(192, 192, 192);
+	color: rgb(51, 51, 51);
+	padding: 5px 0;
+	width: 120px;
+	font-size: .80em;
+	cursor: default;
+	text-align: center;
+	border-radius: 5px;
+	bottom: 100%;
+	left: 50%;
+	margin-left: -60px
+}
