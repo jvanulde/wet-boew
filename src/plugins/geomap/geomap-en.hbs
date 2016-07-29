@@ -85,14 +85,14 @@
 		}'>
 
 		<div class="row">
-			<div class="col-md-9">
+			<div class="col-md-9 form-group">
 				<!-- Insert Map Start (mandatory) -->
 				<div class="wb-geomap-map"></div>
 				<!-- Insert Map End -->
 			</div>
 
 			<!-- Insert Legend Start (optional) -->
-			<section class="col-md-3">
+			<section class="col-md-3 form-group">
 				<div class="panel panel-default">
 					<header class="panel-heading">
 						<h3 class="panel-title">Legend</h3>
@@ -113,7 +113,7 @@
 					<p>Layers are created from the following tables. An attribute <code>data-geometry</code> to hold the geometry and an attribute <code>data-type</code> to hold the geometry type (wkt or bbox) are required for each row.</p>
 					<section class="panel panel-default">
 						<div class="panel-heading">
-							<h4 class="panel-title">Points</h4>
+							<div class="panel-title">Points</div>
 						</div>
 						<div class="panel-body">
 							<table id="cities" aria-label="Points" class="table wb-tables">
@@ -183,7 +183,7 @@
 
 					<section class="panel panel-default">
 						<div class="panel-heading">
-							<h4 class="panel-title">Bounding Boxes</h4>
+							<div class="panel-title">Bounding Boxes</div>
 						</div>
 						<div class="panel-body">
 							<table id="bbox" aria-label="Bounding Boxes" class="table table-condensed">

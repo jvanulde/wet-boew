@@ -84,14 +84,14 @@
 		}'>
 
 		<div class="row">
-			<div class="col-md-9">
+			<div class="col-md-9 form-group">
 				<!-- Insert Map Start (mandatory) -->
 				<div class="wb-geomap-map"></div>
 				<!-- Insert Map End -->
 			</div>
 
 			<!-- Insert Legend Start (optional) -->
-			<section class="col-md-3">
+			<section class="col-md-3 form-group">
 				<div class="panel panel-default">
 					<header class="panel-heading">
 						<h3 class="panel-title">Légende</h3>
@@ -112,7 +112,7 @@
 					<p>Les données est créées à partir des tables suivantes. Un attribut <code>data-geometry</code> contient la géometry et un attribut <code>data-type</code> contient le type (wkt ou bbox) ont été ajoutés à chaque ligne.</p>
 					<section class="panel panel-default">
 						<div class="panel-heading">
-							<h4 class="panel-title">Points</h4>
+							<div class="panel-title">Points</div>
 						</div>
 						<div class="panel-body">
 							<table id="cities" aria-label="Points" class="table wb-tables">
@@ -182,7 +182,7 @@
 
 					<section class="panel panel-default">
 						<div class="panel-heading">
-							<h4 class="panel-title">Boîtes des délimitations</h4>
+							<div class="panel-title">Boîtes des délimitations</div>
 						</div>
 						<div class="panel-body">
 							<table id="bbox" aria-label="Boîtes des délimitations" class="table table-condensed">

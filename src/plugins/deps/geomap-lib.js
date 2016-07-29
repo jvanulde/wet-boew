@@ -220,8 +220,8 @@ var componentName = "wb-geomap",
 
 		// Add a section to hold the data table
 		if ( this.settings.accessible ) {
-			this.map.layerDiv.append( "<section class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'>" +
-					this.settings.title + "</h4></div><div class='panel-body'><div data-layer='" +
+			this.map.layerDiv.append( "<section class='panel panel-default'><div class='panel-heading'><div class='panel-title'>" +
+					this.settings.title + "</div></div><div class='panel-body'><div data-layer='" +
 					this.id + "' class='geomap-table-wrapper' style='display:none;'></div></div></section>" );
 		}
 
@@ -825,6 +825,16 @@ var componentName = "wb-geomap",
 	 */
 	createOLMap = function( geomap ) {
 
+		var controls = geomap.settings.useMapControls ? ol.control.defaults({
+				attributionOptions: ( {
+					collapsible: false
+				} )
+			}) : [],
+			interactions = geomap.settings.useMapControls ? ol.interaction.defaults( {
+				mouseWheelZoom: true
+			} ) : [],
+			intrctn;
+
 		// Add projection for default base map
 		proj4.defs( "EPSG:3978", "+proj=lcc +lat_1=49 +lat_2=77 +lat_0=49 +lon_0=-95 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs" );
 
@@ -833,17 +843,18 @@ var componentName = "wb-geomap",
 
 		// Create the OpenLayers Map Object
 		var map = new ol.Map( {
-			controls: ol.control.defaults({
-				attributionOptions: ( {
-					collapsible: false
-				} )
-			}),
-			interactions: ol.interaction.defaults( {
-				mouseWheelZoom: true
-			} ),
+			controls: controls,
+			interactions: interactions,
 			logo: false,
 			target: geomap.mapDiv.attr( "id" )
 		} );
+
+		intrctn = getMapInteraction( map, ol.interaction.MouseWheelZoom );
+		
+		// Disable the mouseWheelZoom until the user focuses on the map
+		if ( geomap.settings.useMapControls && intrctn ) {
+			intrctn.setActive( false );
+		} 
 
 		geomap.mapDiv.height( geomap.mapDiv.width() * geomap.settings.aspectRatio );
 		map.set( "aspectRatio", geomap.settings.aspectRatio );
@@ -856,9 +867,7 @@ var componentName = "wb-geomap",
 
 		// Everytime the map view is changed, fire the updated event
 		map.on( "moveend", function() {
-
 			$( geomap.id ).trigger( "wb-updated" + selector, [ geomap.map ] );
-
 		} );
 
 		geomap.mapDiv.append( "<div id='tooltip_" + geomap.id + "' style='display:none;'><span class='tooltip-txt'></span></div>");
@@ -893,11 +902,11 @@ var componentName = "wb-geomap",
 
 			tooltip = $( "#tooltip_" + geomap.id );
 
-			if (evt.dragging) {
+			if ( evt.dragging ) {
 				tooltip.hide();
 				return;
 			}
-			displayFeatureInfo(map.getEventPixel(evt.originalEvent));
+			displayFeatureInfo( map.getEventPixel(evt.originalEvent ) );
 
 			return;
 		});
@@ -970,28 +979,28 @@ var componentName = "wb-geomap",
 		aoiDiv.append( "<fieldset id='form-aoi-" + geomap.id + "'>" +
 				"<legend tabindex='-1'>" + i18nText.aoiInstructions + "</legend>" +
 				"<div class='row'>" +
-					"<div class='col-md-2'>" +
+					"<div class='col-md-2 form-group'>" +
 						"<label for='geomap-aoi-maxy-" + geomap.id + "' class='wb-inv'>" + i18nText.aoiNorth + "</label>" +
 						"<div class='input-group input-group-sm'>" +
 							"<span class='input-group-addon'>" + i18nText.aoiNorth.charAt( 0 ) + "</span>" +
 							"<input type='number' id='geomap-aoi-maxy-" + geomap.id + "' placeholder='90' class='form-control input-sm' min='-90' max='90' step='0.000001'></input>" +
 						"</div>" +
 					"</div>" +
-					"<div class='col-md-2'>" +
+					"<div class='col-md-2 form-group'>" +
 						"<label for='geomap-aoi-maxx-" + geomap.id + "' class='wb-inv'>" + i18nText.aoiEast + "</label>" +
 						"<div class='input-group input-group-sm'>" +
 							"<span class='input-group-addon'>" + i18nText.aoiEast.charAt( 0 ) + "</span>" +
 							"<input type='number' id='geomap-aoi-maxx-" + geomap.id + "' placeholder='180' class='form-control input-sm' min='-180' max='180' step='0.000001'></input> " +
 						"</div>" +
 					"</div>" +
-					"<div class='col-md-2'>" +
+					"<div class='col-md-2 form-group'>" +
 						"<label for='geomap-aoi-miny-" + geomap.id + "' class='wb-inv'>" + i18nText.aoiSouth + "</label>" +
 						"<div class='input-group input-group-sm'>" +
 							"<span class='input-group-addon'>" + i18nText.aoiSouth.charAt( 0 ) + "</span>" +
 							"<input type='number' id='geomap-aoi-miny-" + geomap.id + "' placeholder='-90' class='form-control input-sm' min='-90' max='90' step='0.000001'></input> " +
 						"</div>" +
 					"</div>" +
-					"<div class='col-md-2'>" +
+					"<div class='col-md-2 form-group'>" +
 						"<label for='geomap-aoi-minx-" + geomap.id + "' class='wb-inv'>" + i18nText.aoiWest + "</label>" +
 						"<div class='input-group input-group-sm'>" +
 							"<span class='input-group-addon'>" + i18nText.aoiWest.charAt( 0 ) + "</span>" +
@@ -1006,8 +1015,7 @@ var componentName = "wb-geomap",
 				"<input type='hidden' id='geomap-aoi-extent-" + geomap.id + "'></input>" +
 				"<input type='hidden' id='geomap-aoi-extent-lonlat-" + geomap.id + "'></input>" +
 			"</fieldset>" +
-		"</div>" +
-		"<div class='clear'></div>" );
+		"</div>");
 
 		$( "#geomap-aoi-btn-clear-" + geomap.id ).after( "<button id='geomap-aoi-toggle-mode-draw-" + geomap.id +
 				"' href='#' class='btn btn-sm btn-default geomap-geoloc-aoi-btn' title='" + i18nText.aoiBtnDraw +
@@ -1640,14 +1648,11 @@ var componentName = "wb-geomap",
 		}
 	} );
 
-	//Bind the init function to the geomap.wb event
+	// Bind the init function to the geomap.wb event
 	$document.on( "geomap.wb", selector, init );
 
 	// Update the map when the window is resized
 	$document.on( wb.resizeEvents, function() {
-
-		// Get window size: xlargeview, largeview, mediumview, smallview, xsmallview, xxsmallview
-//		windowSize = evt.type;
 
 		mapArray.forEach( function( geomap ) {
 			var $mapDiv = $( geomap.map.getTargetElement() );
@@ -1667,7 +1672,7 @@ var componentName = "wb-geomap",
 			tbody = $( this ).closest( "tbody" ),
 			checked = target.checked;
 
-		//TODO: create function to do this, as it's done elsewhere as well
+		// TODO: create function to do this, as it's done elsewhere as well
 		// clear the checkboxes and reset row in the table
 		$( tbody ).find( ".geomap-cbx" ).prop( "checked", false );
 		$( tbody ).find( ".geomap-cbx" ).closest( "tr" ).removeClass( "active" );
@@ -1688,14 +1693,26 @@ var componentName = "wb-geomap",
 	 * Add/remove map border based on mouse pointer location
 	 */
 	$document.on( "focusin focusout mouseover mouseout", ".wb-geomap-map", function( evt ) {
-
+	
 		var target = evt.currentTarget,
 			type = evt.type,
-			isActive = target.className.indexOf( "active" );
-
+			isActive = target.className.indexOf( "active" ),
+			geomap = getMapById( target.getAttribute( "data-map" ) ),
+			mouseWheelZoom = getMapInteraction( geomap.map, ol.interaction.MouseWheelZoom );
+		
+		// disable mouseWheelZoom so that page scrolling isn't interupted
+		if ( geomap.settings.useMapControls ) {
+			mouseWheelZoom.setActive( false );
+		}
+		
 		if ( type === "mouseover" || type === "focusin" ) {
 			if ( isActive ) {
 				$( target ).addClass( "active" );
+			}
+
+			// enable mouseWheelZoom if using map controls and user has focused in on map
+			if ( type === "focusin" && geomap.settings.useMapControls ) {
+				mouseWheelZoom.setActive( true );
 			}
 		} else if ( isActive > 0 ) {
 			$( target ).removeClass( "active" );
@@ -1859,6 +1876,7 @@ var componentName = "wb-geomap",
 					// attributions : [ new ol.Attribution( {
 					// 	html : "<a href='" + i18nText.attribLink + "'>\u00A9" + i18nText.attribTitle + "</a>"
 					// } ) ],
+					// TODO: move the URL to i18n.csv
 					url : "//geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBCT3978/MapServer/WMTS/",
 					layer : i18nText.baseMapTitle,
 					matrixSet : "nativeTileMatrixSet",
@@ -2196,7 +2214,7 @@ var componentName = "wb-geomap",
 		head = "<thead><tr>" + head + ( _this.map.settings.useMapControls && _this.settings.zoom ? "<th><span class='wb-inv'>" + i18nText.zoomFeature + "</span></th>" : "" ) + "</tr></thead>";
 
 		// Create the table body rows
-//		for ( var i = 0; i < features.length || ( function() { refreshPlugins( _this.map ); return false; }() ); i += 1 ) {
+		// for ( var i = 0; i < features.length || ( function() { refreshPlugins( _this.map ); return false; }() ); i += 1 ) {
 		for ( var i = 0; i < features.length; i += 1 ) {
 
 			body += "<tr>" + addChkBox( _this, features[ i ] );
@@ -2685,7 +2703,7 @@ var componentName = "wb-geomap",
 		if ( _this.settings.useMapControls ) {
 
 			var element = document.createElement( "span" );
-			element.className = "glyphicon glyphicon-fullscreen";
+			element.className = "glyphicon glyphicon-home";
 
 			extentCtrl = new ol.control.ZoomToExtent( {
 				extent: map.getView().calculateExtent( map.getSize() ),
@@ -2793,8 +2811,11 @@ var componentName = "wb-geomap",
 			"aria-label": i18nText.ariaMap
 		} );
 
-		// Add the map instructions
-		new HelpControl( _this );
+		if ( _this.settings.useMapControls ) {
+
+			// Add the map instructions
+			new HelpControl( _this );
+		}
 
 	}
 
