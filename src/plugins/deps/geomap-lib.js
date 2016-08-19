@@ -13,6 +13,7 @@ var componentName = "wb-geomap",
 	$document = wb.doc,
 	colourIndex = 0,
 	mapArray = [],
+	mobile = false,
 	i18n, i18nText, tooltip,
 
 	/*
@@ -44,6 +45,10 @@ var componentName = "wb-geomap",
 			settings = {},
 			$elm, overrides;
 
+		if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test( navigator.userAgent ) ) {
+			mobile = true;
+		}
+
 		// Filter out any events triggered by descendants
 		if ( evt.currentTarget === elm ) {
 			$elm = $( elm );
@@ -65,8 +70,7 @@ var componentName = "wb-geomap",
 					zoomout: i18n( "geo-zmout" ),
 					zoomworld: i18n( "geo-zmwrld" ),
 					baseMapTitle: i18n( "geo-bmapttl" ),
-					baseMapURL: i18n( "geo-bmapurl" ),
-					baseMapURLTxt: i18n( "geo-bmapurltxt" ),
+					baseMapURL: i18n( "geo-bmap-url" ),
 					scaleline: i18n( "geo-sclln" ),
 					mouseposition: i18n( "geo-msepos" ),
 					access: i18n( "geo-ally" ),
@@ -220,9 +224,9 @@ var componentName = "wb-geomap",
 
 		// Add a section to hold the data table
 		if ( this.settings.accessible ) {
-			this.map.layerDiv.append( "<section class='panel panel-default'><div class='panel-heading'><div class='panel-title'>" +
+			this.map.layerDiv.append( "<div class='panel panel-default'><div class='panel-heading'><div class='panel-title' role='heading'>" +
 					this.settings.title + "</div></div><div class='panel-body'><div data-layer='" +
-					this.id + "' class='geomap-table-wrapper' style='display:none;'></div></div></section>" );
+					this.id + "' class='geomap-table-wrapper' style='display:none;'></div></div></div>" );
 		}
 
 		// Add to legend if legend is configured
@@ -360,6 +364,10 @@ var componentName = "wb-geomap",
 
 					return new UniqueStyle( feature, featureType );
 
+				} else if ( styleType === "select" ) {
+
+					return new SelectStyle( feature, featureType );
+
 				}
 
 			};
@@ -388,7 +396,7 @@ var componentName = "wb-geomap",
 				// Set the style elements
 				strokeDash = rule.init.strokeDash ? rule.init.strokeDash : [ 1, 0 ];
 				strokeWidth = rule.init.strokeWidth ? rule.init.strokeWidth : 1.0;
-				opacity = rule.init.fillOpacity ? rule.init.fillOpacity : 0.5;
+				opacity = rule.init.fillOpacity ? rule.init.fillOpacity : rule.init.graphicOpacity ? rule.init.graphicOpacity : 0.5;
 				radius = rule.init.pointRadius ? rule.init.pointRadius : 5;
 				strokeColor = rule.init.strokeColor ? hexToRGB( rule.init.strokeColor, opacity ) : colors.transparent;
 				fillColor = hexToRGB( rule.init.fillColor, opacity );
@@ -478,7 +486,7 @@ var componentName = "wb-geomap",
 
 		var DefaultStyle = function () {
 
-			opacity = style.fillOpacity ? style.fillOpacity : 1.0;
+			opacity = style.fillOpacity ? style.fillOpacity : style.graphicOpacity ? style.graphicOpacity : 1.0;
 			fillColor = style.fillColor ? hexToRGB( style.fillColor, opacity ) : colors.transparent;
 			strokeColor = style.strokeColor ? hexToRGB( style.strokeColor, opacity ) : colors.transparent;
 			strokeWidth = style.strokeWidth ? style.strokeWidth: 1.0;
@@ -506,7 +514,7 @@ var componentName = "wb-geomap",
 
 				strokeDash = objStyle.strokeDash ? objStyle.strokeDash : [ 1, 0 ];
 				strokeWidth = objStyle.strokeWidth ? objStyle.strokeWidth : 1.0;
-				opacity = objStyle.fillOpacity ? objStyle.fillOpacity : 0.5;
+				opacity = objStyle.fillOpacity ? objStyle.fillOpacity : objStyle.graphicOpacity ? objStyle.graphicOpacity : 0.5;
 				radius = objStyle.pointRadius ? objStyle.pointRadius : 5;
 				strokeColor = objStyle.strokeColor ? hexToRGB( objStyle.strokeColor, opacity ) : colors.transparent;
 				fillColor = objStyle.fillColor ? hexToRGB( objStyle.fillColor, opacity ) : null;
@@ -560,6 +568,55 @@ var componentName = "wb-geomap",
 						break;
 				}
 
+			}
+
+		};
+
+		var SelectStyle = function ( feature, featureType ) {
+
+			strokeDash = style.strokeDash ? style.strokeDash : [ 1, 0 ];
+			strokeWidth = style.strokeWidth ? style.strokeWidth : 1.0;
+			opacity = style.fillOpacity ? style.fillOpacity : style.graphicOpacity ? style.graphicOpacity : 0.5;
+			radius = style.pointRadius ? style.pointRadius : 5;
+			strokeColor = style.strokeColor ? hexToRGB( style.strokeColor, opacity ) : colors.transparent;
+			fillColor = style.fillColor ? hexToRGB( style.fillColor, opacity ) : null;
+			name = style.name ? style.name : null;
+			graphicHeight = style.graphicHeight ? style.graphicHeight : 25;
+			externalGraphic = style.externalGraphic;
+			graphicWidth = style.graphicWidth ? style.graphicWidth : 25;
+
+			switch ( featureType ) {
+				case "Polygon" || "MultiPolygon":
+					return getPolygonStyle( {
+						fill: new ol.style.Fill( { color: fillColor } ),
+						stroke: new ol.style.Stroke( { color: strokeColor, width: strokeWidth, lineDash: strokeDash } )
+					} );
+				case "Point" || "MultiPoint":
+					if ( externalGraphic ) {
+						return getIconStyle( {
+							src: externalGraphic,
+							opacity: opacity,
+							size: [ graphicWidth, graphicHeight ]
+						} );
+					} else {
+						return getPointStyle ( {
+							radius : radius,
+							fill : new ol.style.Fill( { color: fillColor } ),
+							stroke : new ol.style.Stroke( { color: strokeColor, width: strokeWidth, lineDash: strokeDash } )
+						} );
+					}
+					
+				case "LineString" || "MultiLineString":
+					return getLineStyle( {
+						stroke: new ol.style.Stroke( { color: strokeColor, width: strokeWidth, lineDash: strokeDash } )
+					} );
+					
+				default:
+					return getPolygonStyle( {
+						fill: new ol.style.Fill( { color: fillColor } ),
+						stroke: new ol.style.Stroke( { color: strokeColor, width: strokeWidth, lineDash: strokeDash } )
+					} );
+					
 			}
 
 		};
@@ -825,11 +882,11 @@ var componentName = "wb-geomap",
 	 */
 	createOLMap = function( geomap ) {
 
-		var controls = geomap.settings.useMapControls ? ol.control.defaults({
+		var controls = geomap.settings.useMapControls ? ol.control.defaults( {
 				attributionOptions: ( {
 					collapsible: false
 				} )
-			}) : [],
+			} ) : [],
 			interactions = geomap.settings.useMapControls ? ol.interaction.defaults( {
 				mouseWheelZoom: true
 			} ) : [],
@@ -1244,20 +1301,30 @@ var componentName = "wb-geomap",
 	GeocodeControl = function( geomap ) {
 
 		var element = document.createElement( "div" ),
-			xhr, timer;
+			xhr, timer, width, x;
 
 		element.innerHTML =
 			"<label for='wb-geomap-geocode-search-" + geomap.id + "' class='wb-inv'>" + i18nText.geoCoderLabel + "</label>" +
-			"<input type='text' class='form-control opct-90 input-sm' name='wb-geomap-geocode-search-" + geomap.id + "' id='wb-geomap-geocode-search-" + geomap.id + "' list='wb-geomap-geocode-results-" + geomap.id + "' autocomplete='off' placeholder='" + i18nText.geoCoderPlaceholder + "' />" +
+			"<input type='text' class='form-control opct-90' name='wb-geomap-geocode-search-" + geomap.id + "' id='wb-geomap-geocode-search-" + geomap.id + "' list='wb-geomap-geocode-results-" + geomap.id + "' autocomplete='off' placeholder='" + i18nText.geoCoderPlaceholder + "' />" +
 			"<datalist id='wb-geomap-geocode-results-" + geomap.id + "'></datalist>";
 
 		element.className = "geomap-geoloc ol-unselectable ol-control";
 
 		ol.control.Control.call( this, {
 			element : element
-		});
+		} );
 
 		geomap.map.addControl( this );
+
+		width = parseFloat($( ".geomap-geoloc" ).parent().width() );
+		x = width > 768 ? .6 : .8;
+		
+		if ( !mobile ) {
+			
+			$( ".geomap-geoloc" ).css( { "width": width * x } );
+		} else {
+			$( ".geomap-geoloc" ).css( { 'width': width - 10 + 'px' } );
+		}
 
 		$( "#wb-geomap-geocode-search-" + geomap.id ).trigger( "wb-init.wb-datalist" );
 
@@ -1430,6 +1497,7 @@ var componentName = "wb-geomap",
 
 		element = document.createElement( "div" );
 		element.className = "ol-geolocate ol-unselectable ol-control";
+
 		element.appendChild( button );
 
 		_this.geolocation = new ol.Geolocation( opts );
@@ -1652,12 +1720,26 @@ var componentName = "wb-geomap",
 	$document.on( "geomap.wb", selector, init );
 
 	// Update the map when the window is resized
-	$document.on( wb.resizeEvents, function() {
+	$document.on( wb.resizeEvents, function( evt ) {
 
 		mapArray.forEach( function( geomap ) {
-			var $mapDiv = $( geomap.map.getTargetElement() );
-			$mapDiv.height( $mapDiv.width() * geomap.map.get( "aspectRatio" ) );
+
+			var $mapDiv = $( geomap.map.getTargetElement() ),
+				$myDiv = $mapDiv.find( ".geomap-geoloc" ),
+				width = $mapDiv.width();
+
+			$mapDiv.height( width * geomap.map.get( "aspectRatio" ) );
+			
 			geomap.map.updateSize();
+
+			if ( $myDiv ) {
+				if ( evt.type === "mediumview" || evt.type === "largeview" || evt.type === "xlargeview" ) {
+					$myDiv.css( { "width": "60%" } );
+				} else {
+					$myDiv.css( { "width": "80%" } );
+				}
+			}
+
 		} );
 
 	} );
@@ -1669,21 +1751,10 @@ var componentName = "wb-geomap",
 			feature = getMapLayerFeature( target )[ 2 ],
 			map = getMapLayerFeature( target )[ 0 ],
 			selectInteraction = getMapInteraction( map, ol.interaction.Select ),
-			tbody = $( this ).closest( "tbody" ),
 			checked = target.checked;
-
-		// TODO: create function to do this, as it's done elsewhere as well
-		// clear the checkboxes and reset row in the table
-		$( tbody ).find( ".geomap-cbx" ).prop( "checked", false );
-		$( tbody ).find( ".geomap-cbx" ).closest( "tr" ).removeClass( "active" );
-		selectInteraction.getFeatures().clear();
-
-		checked ? $( target ).closest( "tr" ).addClass( "active" ) : $( target ).closest( "tr" ).removeClass( "active" );
-
+			
 		if ( checked ) {
-			$( target ).prop( "checked", true );
 			selectInteraction.getFeatures().push( feature );
-			showPopup( evt, feature, map );
 		} else {
 			selectInteraction.getFeatures().remove( feature );
 		}
@@ -1873,11 +1944,10 @@ var componentName = "wb-geomap",
 
 			olLayers.push( new ol.layer.Tile( {
 				source : new ol.source.WMTS( {
-					// attributions : [ new ol.Attribution( {
-					// 	html : "<a href='" + i18nText.attribLink + "'>\u00A9" + i18nText.attribTitle + "</a>"
-					// } ) ],
-					// TODO: move the URL to i18n.csv
-					url : "//geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBCT3978/MapServer/WMTS/",
+					attributions : [ new ol.Attribution( {
+						html : "<a href='" + i18nText.attribLink + "'>" + i18nText.attribTitle + "</a>"
+					} ) ],
+					url : i18nText.baseMapURL,
 					layer : i18nText.baseMapTitle,
 					matrixSet : "nativeTileMatrixSet",
 					projection : projection,
@@ -2345,7 +2415,13 @@ var componentName = "wb-geomap",
 						var feature = features[ i ];
 
 						if ( _this.settings.style.select ) {
-							feature.selectStyle = _this.settings.style.select;
+							_this.settings.style.select.type = "select";
+							var selStyleFactory = new StyleFactory(),
+								selStyle = selStyleFactory.createStyleFunction(
+										_this.settings.style.select,
+										feature.getGeometry().getType()
+								);
+							feature.selectStyle = selStyle;
 						}
 
 						feature.setId( generateGuid() );
@@ -2665,33 +2741,41 @@ var componentName = "wb-geomap",
 
 		// Add a select interaction
 		selectInteraction = new ol.interaction.Select( {
-			// TODO: apply style to selected feature
-//			style: function( feature, resolution ) {
-//				return null; //feature.selectStyle;
-//			},
 			layers: _this.layers
+		} );
+			
+		selectInteraction.getFeatures().on( "remove", function( evt ) {
+			var feature = evt.element;
+			feature.setStyle( null );
+			$( "#cb_" + feature.getId() ).prop( "checked", false ).closest( "tr" ).removeClass( "active" );
+		} );
+
+		selectInteraction.getFeatures().on( "add", function( evt ) {
+			var feature = evt.element;
+			if ( feature.selectStyle ) {
+				feature.setStyle( feature.selectStyle );
+			}
+			$( "#cb_" + feature.getId() ).prop( "checked", true ).closest( "tr" ).addClass( "active" );
 		} );
 
 		// Add select event handler
 		selectInteraction.on( "select", function ( evt ) {
 
-			if ( evt.selected.length > 0 && typeof evt.selected[ 0 ].layerTitle !== "undefined" ) {
-				popups = getLayerById( this.getMap(), evt.selected[ 0 ].layerId ).popups;
+			var _this = this,
+				selected = evt.selected ? evt.selected : _this.getFeatures();
+			
+			if ( selected && selected.length > 0 && typeof selected[ 0 ].layerTitle !== "undefined" ) {
+				popups = getLayerById( _this.getMap(), selected[ 0 ].layerId ).popups;
 
-				$( "#cb_" + evt.selected[ 0 ].getId() ).prop( "checked", true ).closest( "tr" ).addClass( "active" );
-				evt.selected[ 0 ].layerTitle = this.getLayer( evt.selected[ 0 ] ).title;
+				selected[ 0 ].layerTitle = _this.getLayer( evt.selected[ 0 ] ).title;
 
 				if ( popups ) {
-					showPopup( evt, evt.selected[ 0 ], map );
+					showPopup( evt, selected[ 0 ], map );
 				}
 			}
 
-			if ( evt.deselected.length > 0 ) {
-				$( "#cb_" + evt.deselected[ 0 ].getId() ).prop( "checked", false ).closest( "tr" ).removeClass( "active" );
-			}
-
 			// if there are no selected features then hide the popup
-			if ( evt.selected.length === 0 ) {
+			if ( selected && selected.length === 0 ) {
 				showPopup( evt, null, map );
 			}
 
@@ -2703,13 +2787,16 @@ var componentName = "wb-geomap",
 		if ( _this.settings.useMapControls ) {
 
 			var element = document.createElement( "span" );
+			
 			element.className = "glyphicon glyphicon-home";
 
 			extentCtrl = new ol.control.ZoomToExtent( {
 				extent: map.getView().calculateExtent( map.getSize() ),
 				label: element
 			} );
+
 			map.addControl( extentCtrl );
+
 			extentCtrl.element.setAttribute( "aria-label", i18nText.zoomworld );
 			extentCtrl.element.setAttribute( "title", i18nText.zoomworld );
 

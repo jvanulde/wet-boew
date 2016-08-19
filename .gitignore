@@ -39,3 +39,5 @@ site/data/i18n/
 wet-boew-cdn/
 wet-boew-theme-cdn/
 wet-boew-dist/
+
+.vscode/settings.json
