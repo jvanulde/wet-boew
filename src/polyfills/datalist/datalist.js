@@ -49,6 +49,10 @@ var componentName = "wb-datalist",
 	},
 
 	populateOptions = function( input ) {
+
+		// Remove polyfill if it exists
+		$( "#wb-al-" + input.id ).remove();
+
 		var $input = $( input ),
 			autolist = "<div class='wb-al-cnt'><ul role='listbox' id='wb-al-" + input.id + "' class='wb-al hide' aria-hidden='true' aria-live='polite'></ul>",
 			datalist = document.getElementById( input.getAttribute( "list" ) ),

@@ -1029,7 +1029,7 @@ module.exports = (grunt) ->
 						"google-code-prettify/src/*.js"
 						"DataTables/media/js/jquery.dataTables.js"
 						"proj4/dist/proj4.js"
-						"openlayers/OpenLayers.debug.js"
+						"openlayers/build/ol.js"
 					]
 					dest: "<%= coreDist %>/js/deps"
 					rename: (dest, src) ->

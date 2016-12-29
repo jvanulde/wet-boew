@@ -34,6 +34,7 @@ sprite*.png
 node_modules/
 lib/
 site/data/i18n/
+.vscode/*
 
 #gh-pages
 wet-boew-cdn/
