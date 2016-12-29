@@ -182,25 +182,6 @@ var wet_boew_geomap = {
 			}
 		},
 		{
-			title: "JSON (GeoGratis)",
-			caption: "This is a sample dataset loaded from a remote JSON resource, in this case the GeoGratis API.",
-			type: "json",
-			url: "//geogratis.gc.ca/api/en/nrcan-rncan/ess-sst",
-			params: {
-				alt: "json",
-				q: "alluvial"
-			},
-			visible: false,
-			datatable: true,
-			root: "products",
-			popups: true,
-			attributes: {
-				title: "Title",
-				summary: "Abstract",
-				author: "Author"
-			}
-		},
-		{
 			title: "JSON (Earthquakes)",
 			caption: "This is a sample dataset loaded from a remote JSON resource, in this case the Earthquakes API.",
 			type: "json",
