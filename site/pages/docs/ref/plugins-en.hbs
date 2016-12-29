@@ -15,6 +15,7 @@
 	<li><a href="country-content/country-content-en.html">Country Content</a> - A basic AjaxLoader wrapper that inserts AJAXed-in content based on a visitor's country as determined by http://freegeoip.net</li>
 	<li><a href="data-ajax/data-ajax-en.html">Data Ajax</a> - Displays an overlay when a section moves out of the viewport.</li>
 	<li><a href="data-inview/data-inview-en.html">Data Inview</a> - Displays an overlay when a section moves out of the viewport.</li>
+	<li><a href="data-json/data-json-en.html">Data JSON</a> - Insert content extracted from a JSON file.</li>
 	<li><a href="data-picture/data-picture-en.html">Data Picture</a> - Event driven port of Picturefill.</li>
 	<li><a href="equalheight/equalheight-en.html">Equal height</a> - A plugin for responsive equal height.</li>
 	<li><a href="favicon/favicon-en.html">Favicon</a> - This plugin provides the ability to add and update the favicon's on a web page.</li>
@@ -36,3 +37,14 @@
 	<li><a href="toggle/toggle-en.html">Toggle</a> - Allows a link to toggle elements between on and off states.</li>
 	<li><a href="twitter/twitter-en.html">Twitter embedded timeline</a> - Helps with implementing Twitter embedded timelines.</li>
 </ul>
+
+<h2>Using your own plugin</h2>
+
+<p>In order to have your plugin working with WET:</p>
+<ol>
+	<li>Your plugin needs to follow the WET plugin initialisation.</li>
+	<li>Your script needs to be inserted after the <code>wet-boew.min.js</code> script in your page.</li>
+	<li>An element in your page needs to call the plugin by having the plugin name in its class atttribute.</li>
+</ol>
+
+<p>Take a look at the <a href="../../demos/helloworld/helloworld-en.html">Hello world</a> example.</p>
