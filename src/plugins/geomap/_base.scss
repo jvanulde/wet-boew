@@ -624,7 +624,7 @@ ol-geolocate button {
 }
 
 %datalist-height {
-	max-height: 18em;
+	max-height: 15em;
 }
 
 .wb-geomap-geoloc-al-cnt {
@@ -637,20 +637,21 @@ ol-geolocate button {
 
 	.wb-geomap-geoloc-al {
 		@extend %datalist-height;
+		-webkit-overflow-scrolling: touch; // mobile safari
 		background: #fff;
 		border: solid 1px #ccc;
 		border-top: 0;
 		font-size: .9em;
 		list-style-type: none;
-		overflow: auto;
+		overflow-y: scroll;
 		padding: 0;
 
 		li {
-			border-bottom: solid 1px #ccc;
+			border-bottom: solid 1px #ccc
 		}
 
 		li:last-of-type {
-			border-bottom: 0;
+			border-bottom: 0
 		}
 
 		a {

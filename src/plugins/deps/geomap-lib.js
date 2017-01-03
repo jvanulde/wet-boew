@@ -1477,8 +1477,6 @@ var componentName = "wb-geomap",
 
 			if ( !value || value.length < 3 ) {
 				$autolist.empty();
-				$( ".wb-al-status" ).text( "" );
-				return false;
 			}
 
 			$.ajax( {
@@ -1525,7 +1523,7 @@ var componentName = "wb-geomap",
 
 						// bind events to the options
 						// TODO: do this in the wb-update event
-						$( ".al-opt a" ).on( "keydown click vclick touchstart", function( event ) {
+						$( ".al-opt a" ).on( "keydown click vclick", function( event ) {
 							var link = event.target,
 								eventType = event.type,
 								which = event.which;
