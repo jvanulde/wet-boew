@@ -8,7 +8,7 @@
 var wet_boew_geomap = {
 	basemap: {
 		title: "Tile (XYZ) Source Map",
-		type: "xyz",
+		type: "osm",
 		url: [
 			"//otile1.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.png",
 			"//otile2.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.png",
