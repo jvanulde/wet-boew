@@ -1080,6 +1080,14 @@ module.exports = (grunt) ->
 					dest: "<%= coreDist %>/js/deps"
 					expand: true
 					flatten: true
+				,
+					cwd: "node_modules"
+					src: [
+						"openlayers/dist/ol.js"
+					]
+					dest: "<%= coreDist %>/js/deps"
+					expand: true
+					flatten: true
 				]
 
 			demos:
@@ -1411,7 +1419,7 @@ module.exports = (grunt) ->
 					npmInstall: false
 
 	# These plugins provide necessary tasks.
-	require( "load-grunt-tasks")( grunt, { pattern: [ "grunt-*", "assemble" ] } )
+	require( "load-grunt-tasks")( grunt )
 
 	require( "time-grunt" )( grunt )
 	@
